@@ -1,7 +1,9 @@
 var React = require('react-native');
+var Champion = require('./Champion');
+var CellChampion = require('./CellChampion');
 
 var REQUEST_URL = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
-var REQUEST_CHAMP = 'http://ddragon.leagueoflegends.com/cdn/5.8.1/img/champion/';
+
 
 'use strict';
 
@@ -11,6 +13,7 @@ var {
   Image,
   NavigatorIOS,
   View,
+  TouchableHighlight,
   ListView,
 } = React;
 
@@ -51,19 +54,20 @@ var AllChampions = React.createClass({
     );
   },
 
+  selectChampion: function(champion){
+    this.props.navigator.push({
+      title: champion.name,
+      component: Champion,
+      passProps: {champion},
+    });
+  },
+
   renderChampion: function(champion){
-    var urlImage = REQUEST_CHAMP + champion.image.full;
     return (
-      <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={{uri: urlImage}}
-        />
-        <View style={styles.rightContainer}>
-          <Text style={styles.name}>{champion.name}</Text>
-          <Text style={styles.title}>{champion.title}</Text>
-        </View>
-      </View>
+      <CellChampion
+        onSelect={() => this.selectChampion(champion)}
+        champion={champion}
+      />
     );
   },
 
@@ -76,6 +80,9 @@ var AllChampions = React.createClass({
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderChampion}
+        keyboardDismissMode="onDrag"
+        keyboardShouldPersistTaps={true}
+        showsVerticalScrollIndicator={false}
       />
     );
   },
