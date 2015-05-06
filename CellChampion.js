@@ -14,6 +14,13 @@ CellChampion = React.createClass({
 
   render: function() {
     var urlImage = REQUEST_IMAGE_CHAMP_SMALL + this.props.champion.image.full;
+
+    this.props.champion.title = this.props.champion.title.replace(
+      /^[a-z]/, function(m){
+        return m.toUpperCase()
+       }
+    );
+
     return (
       <View>
         <TouchableHighlight onPress={this.props.onSelect}>
