@@ -66,6 +66,8 @@ var Champion = React.createClass({
       SKINS_IMAGES.push(image);
     });
 
+    console.log(this.state.champInfo);
+
     return (
       <View>
         <ScrollView
@@ -75,8 +77,15 @@ var Champion = React.createClass({
           {SKINS_IMAGES.map(createSkinRow)}
         </ScrollView>
         <View style={styles.container}>
-          <Text>{this.state.champInfo.name}</Text>
-          <Text>{this.state.champInfo.blurb}</Text>
+          <Text style={styles.name}>{this.state.champInfo.name}</Text>
+          <Text style={styles.title}>{this.props.champion.title}</Text>
+
+          <View style={styles.blurp}>
+            <Text>{this.state.champInfo.blurb}</Text>
+          </View>
+
+          <Text style={styles.section}>Habilities</Text>
+          <Text>{this.state.champInfo.spells[0].name}</Text>
         </View>
       </View>
     );
@@ -103,7 +112,27 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+  },
+  name: {
+    fontSize: 24,
+    marginTop: 7,
+    textAlign: 'center',
+    paddingLeft: 5,
+    fontWeight: 'bold'
+  },
+  blurp: {
+    margin: 3,
+    justifyContent: 'center',
     alignItems: 'center',
+  },
+  title: {
+    fontSize: 12,
+    textAlign: 'center',
+    paddingLeft: 16,
+  },
+  section: {
+    fontWeight: 'bold',
+    textAlign: 'left',
   },
   scrollView: {
     backgroundColor: '#000000',
