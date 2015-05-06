@@ -5,7 +5,7 @@
 'use strict';
 
 var React = require('react-native');
-var AllChampions = require('./AllChampions');
+var Menu = require('./Menu');
 
 var {
   AppRegistry,
@@ -19,13 +19,12 @@ var lolinfo = React.createClass({
       <NavigatorIOS
         style={styles.container}
         initialRoute={{
-          title: 'Champs',
-          component: AllChampions,
+          title: 'LolInfo',
+          component: Menu,
         }}
       />
     );
-  }
-
+  },
 });
 
 var styles = StyleSheet.create({
