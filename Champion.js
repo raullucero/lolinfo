@@ -1,4 +1,5 @@
 var React = require('react-native');
+var Habilities = require('./Habilities');
 
 var REQUEST_IMAGE_SKIN = 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/';
 var REQUEST_CHAMP = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/';
@@ -11,6 +12,7 @@ var {
   View,
   StyleSheet,
   Image,
+  ListView,
   ScrollView,
 } = React;
 
@@ -20,6 +22,9 @@ var Champion = React.createClass({
     return {
       champInfo: null,
       loaded: false,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     }
   },
 
@@ -35,6 +40,7 @@ var Champion = React.createClass({
       this.setState({
         champInfo: responseData,
         loaded: true,
+        dataSource: this.state.dataSource.cloneWithRows(responseData.spells),
       });
     })
     .done();
@@ -47,6 +53,14 @@ var Champion = React.createClass({
           Loading champion...
         </Text>
       </View>
+    );
+  },
+
+  renderHabilities: function(spell){
+    return (
+      <Habilities
+        spell={spell}
+      />
     );
   },
 
@@ -66,7 +80,7 @@ var Champion = React.createClass({
       SKINS_IMAGES.push(image);
     });
 
-    console.log(this.state.champInfo);
+    var blurpHTML = eval('this.state.champInfo.blurb');
 
     return (
       <View>
@@ -77,15 +91,36 @@ var Champion = React.createClass({
           {SKINS_IMAGES.map(createSkinRow)}
         </ScrollView>
         <View style={styles.container}>
-          <Text style={styles.name}>{this.state.champInfo.name}</Text>
-          <Text style={styles.title}>{this.props.champion.title}</Text>
+
+          <Text style={styles.name}>
+            {this.state.champInfo.name}
+          </Text>
+
+          <Text style={styles.title}>
+            {this.props.champion.title}
+          </Text>
 
           <View style={styles.blurp}>
-            <Text>{this.state.champInfo.blurb}</Text>
+            <Text>{blurpHTML}</Text>
           </View>
 
-          <Text style={styles.section}>Habilities</Text>
-          <Text>{this.state.champInfo.spells[0].name}</Text>
+          <Text style={styles.section}>
+            History
+          </Text>
+
+          <Text style={styles.title}>
+            {this.state.champInfo.lore}
+          </Text>
+
+          <Text style={styles.section}>
+            Habilities
+          </Text>
+
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderHabilities}
+            style={styles.listView}
+          />
         </View>
       </View>
     );
@@ -143,6 +178,9 @@ var styles = StyleSheet.create({
   wrapperSkin: {
     width: 124,
     height: 224,
+  },
+  listView: {
+    height: 250,
   },
   button: {
     margin: 7,
