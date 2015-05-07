@@ -1,5 +1,6 @@
 var React = require('react-native');
 var AllChampions = require('./AllChampions.js')
+var SummonerData = require('./SummonerData.js')
 var {
   View,
   Text,
@@ -18,6 +19,10 @@ var Menu = React.createClass({
   onSelectSummoner: function() {
     // TODO Aqui va la llamada a la funcion de inicio de busqueda
     // de datos de summoner
+    this.props.navigator.push({
+      title: 'Summoner',
+      component: SummonerData,
+    });
   },
   render: function() {
     return (
