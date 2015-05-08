@@ -1,6 +1,7 @@
 var React = require('react-native');
 
-var REQUEST_SUMMONER = 'https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/';
+var REQUEST_SUMMONER = 'https://na.api.pvp.net/api/lol/';
+var REQUEST_MIDDLE = '/v1.4/summoner/by-name/';
 var REQUEST_COMPLEMENT = '?api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
 
 var {
@@ -20,6 +21,7 @@ var SearchSummoner = React.createClass({
     	loaded: false,
 			summoner: null,
 			inputValue: '',
+			region: 'NA'
     };
   },
 	/*
@@ -37,6 +39,8 @@ var SearchSummoner = React.createClass({
 
 	*/
 	fetchData: function() {
+		var urlRequest = REQUEST_SUMMONER + this.state.region +
+										+ this.state.inputValue + REQUEST_COMPLEMENT;
     fetch(REQUEST_SUMMONER)
     .then((response) => response.json())
     .then((responseData) => {
@@ -53,9 +57,7 @@ var SearchSummoner = React.createClass({
 		if(this.state.input === ''){
 			return console.log('campo vacio');
 		}
-		var urlRequest = REQUEST_SUMMONER + this.state.inputValue + REQUEST_COMPLEMENT;
-		console.log(this.state.inputValue);
-		console.log(urlRequest);
+
 		this.fetchData();
 	},
 
