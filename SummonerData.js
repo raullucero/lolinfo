@@ -1,7 +1,5 @@
 var React = require('react-native'),
-	Region = require('./StaticData/Region.js'),
-	RegionView = require('./RegionView.js');
-	
+	LogSummoner = require('./LogSummoner.js');
 var {
 	TextInput,
 	StyleSheet,
@@ -14,53 +12,32 @@ var {
 
 var SummmonerData = React.createClass ({
 	getInitialState: function() {
+    return {
+     loaded: false,
+    };
+  },
+	renderLogSummonerView: function() {
+    	return (
+      		<View >
+       			<LogSummoner/>
+      		</View>
+    );
+  },
+   
+	render: function() {
+    if(!this.state.loaded){
+     return this.renderLogSummonerView();
+    }
 
-	    return {
-	    	isLoading: false,
-	    	inputValue : '',
-	    	regionValue : 'NA',
-	    };
-	},
-	navigateToRegionView : function(callback){
-		var currency = Region.currency;
-		var self = this;
-		self.props.navigator.push({
-			title: "Region",
-			component: RegionView,
-			passProps:{currency:currency, onSelect : callback },
-		});
-	},
-	handleRegionButtonPressed : function(){
-		var self = this;
-		this.navigateToRegionView(function(key){
-			self.state.regionValue = key
-		});
-	},
-	onSearchTextChanged : function(event){
-		this.setState({inputValue: event.nativeEvent.text});
-	},
-	render: function (){
-		return (
-			<View style = {styles.container}>
-				<View style = {styles.inputsContainer}>
-			 		 <TextInput 
-			 		 	value={this.state.inputValue}
-          				placeholder="Summoner Name"
-          				autoCorrect={false}
-			  			onChange={this.onSearchTextChanged.bind(this)} 
-			    		style={styles.textInput} />
-			    
-					  	<TouchableHighlight onPress={this.handleRegionButtonPressed}>
-					    	<View style={styles.buttonContainer}>
-					    		<Text style={styles.buttonText}>{this.state.regionValue}</Text>
-					    	</View>
+    return (   	
+      		<View style={styles.container}>
+       		 <Text>
+        		  Summoner DATA
+       		 </Text>
+      		</View>
+    );
+  },
 
-					  	</TouchableHighlight>
-
-				</View>
-			</View>
-		);
-	}
 });
 var styles = StyleSheet.create({
 	
