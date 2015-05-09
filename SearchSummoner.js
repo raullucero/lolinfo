@@ -1,6 +1,6 @@
 var React = require('react-native');
 
-var REQUEST_SUMMONER = 'https://na.api.pvp.net/api/lol/';
+var REQUEST_SUMMONER = 'https://lan.api.pvp.net/api/lol/';
 var REQUEST_MIDDLE = '/v1.4/summoner/by-name/';
 var REQUEST_COMPLEMENT = '?api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
 
@@ -18,10 +18,10 @@ var SearchSummoner = React.createClass({
 
 	getInitialState: function() {
     return {
-    	loaded: false,
+    		loaded: false,
 			summoner: null,
 			inputValue: '',
-			region: 'NA'
+			region: 'LAN'
     };
   },
 	/*
@@ -39,18 +39,18 @@ var SearchSummoner = React.createClass({
 
 	*/
 	fetchData: function() {
-		var urlRequest = REQUEST_SUMMONER + this.state.region +
-										+ this.state.inputValue + REQUEST_COMPLEMENT;
-    fetch(REQUEST_SUMMONER)
+		var urlRequest = REQUEST_SUMMONER + this.state.region +REQUEST_MIDDLE + this.state.inputValue + REQUEST_COMPLEMENT;
+    fetch(urlRequest)
     .then((response) => response.json())
     .then((responseData) => {
       this.setState({
-        summoner: responseData,
+       summoner: responseData,
         loaded: true,
       });
     })
     .done();
 
+		return console.log(urlRequest);
   },
 
 	search: function(){
@@ -59,6 +59,7 @@ var SearchSummoner = React.createClass({
 		}
 
 		this.fetchData();
+		return console.log(this.state.summoner);
 	},
 
 	updateText: function(text) {
