@@ -1,6 +1,8 @@
-var React = require('react-native');
+var React = require('react-native')
+	Region = require('./StaticData/Region.js'),
+	RegionView = require('./RegionView.js');
 
-var REQUEST_SUMMONER = 'https://na.api.pvp.net/api/lol/';
+var REQUEST_SUMMONER = 'https://lan.api.pvp.net/api/lol/';
 var REQUEST_MIDDLE = '/v1.4/summoner/by-name/';
 var REQUEST_COMPLEMENT = '?api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
 
@@ -18,10 +20,10 @@ var SearchSummoner = React.createClass({
 
 	getInitialState: function() {
     return {
-    	loaded: false,
+    		loaded: false,
 			summoner: null,
 			inputValue: '',
-			region: 'NA'
+			region: 'LAN'
     };
   },
 	/*
@@ -39,18 +41,17 @@ var SearchSummoner = React.createClass({
 
 	*/
 	fetchData: function() {
-		var urlRequest = REQUEST_SUMMONER + this.state.region +
-										+ this.state.inputValue + REQUEST_COMPLEMENT;
-    fetch(REQUEST_SUMMONER)
+		var urlRequest = REQUEST_SUMMONER + this.state.region +REQUEST_MIDDLE + this.state.inputValue + REQUEST_COMPLEMENT;
+    fetch(urlRequest)
     .then((response) => response.json())
     .then((responseData) => {
       this.setState({
-        summoner: responseData,
+       summoner: responseData,
         loaded: true,
       });
     })
     .done();
-
+    return console.log(urlRequest);
   },
 
 	search: function(){
@@ -67,6 +68,21 @@ var SearchSummoner = React.createClass({
 		});
 	},
 
+	navigateToRegionView : function(callback){
+		var currency = Region.currency;
+		var self = this;
+		self.props.navigator.push({
+			title: "Region",
+			component: RegionView,
+			passProps:{currency:currency, onSelect : callback },
+		});
+	},
+	handleRegionButtonPressed : function(){
+		var self = this;
+		this.navigateToRegionView(function(key){
+			self.state.region = key
+		});
+	},
 	renderStaticView: function() {
 		return (
 			<View style = {styles.container}>
@@ -77,11 +93,16 @@ var SearchSummoner = React.createClass({
 							(event) => this.updateText(
 								event.nativeEvent.text
           		)
-						}
-					/>
+						}/>
+					<TouchableHighlight onPress={this.handleRegionButtonPressed}>
+				    	<View style={styles.buttonContainer}>
+				    		<Text style={styles.buttonText}>{this.state.region}</Text>
+				    	</View>
+				  	</TouchableHighlight>
 
 					<TouchableHighlight onPress={this.search}>
 						<View style={styles.buttonContainer}>
+							<Text style={styles.buttonText}>GO!</Text>
 						</View>
 					</TouchableHighlight>
 				</View>
@@ -113,10 +134,11 @@ var styles = StyleSheet.create({
 		borderRadius: 3,
 		borderColor :'#0ea378',
 		backgroundColor: 'black',
-		height: 40
+		height: 40,
+		marginTop: 10
 	},
 	centro: {
-		marginTop: 50,
+		marginTop: 180,
 	},
 	buttonText: {
 		fontSize: 18,
