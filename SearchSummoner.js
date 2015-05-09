@@ -1,4 +1,6 @@
-var React = require('react-native');
+var React = require('react-native')
+	Region = require('./StaticData/Region.js'),
+	RegionView = require('./RegionView.js');
 
 var REQUEST_SUMMONER = 'https://lan.api.pvp.net/api/lol/';
 var REQUEST_MIDDLE = '/v1.4/summoner/by-name/';
@@ -49,8 +51,7 @@ var SearchSummoner = React.createClass({
       });
     })
     .done();
-
-		return console.log(urlRequest);
+    return console.log(urlRequest);
   },
 
 	search: function(){
@@ -59,7 +60,6 @@ var SearchSummoner = React.createClass({
 		}
 
 		this.fetchData();
-		return console.log(this.state.summoner);
 	},
 
 	updateText: function(text) {
@@ -68,6 +68,21 @@ var SearchSummoner = React.createClass({
 		});
 	},
 
+	navigateToRegionView : function(callback){
+		var currency = Region.currency;
+		var self = this;
+		self.props.navigator.push({
+			title: "Region",
+			component: RegionView,
+			passProps:{currency:currency, onSelect : callback },
+		});
+	},
+	handleRegionButtonPressed : function(){
+		var self = this;
+		this.navigateToRegionView(function(key){
+			self.state.region = key
+		});
+	},
 	renderStaticView: function() {
 		return (
 			<View style = {styles.container}>
@@ -78,11 +93,16 @@ var SearchSummoner = React.createClass({
 							(event) => this.updateText(
 								event.nativeEvent.text
           		)
-						}
-					/>
+						}/>
+					<TouchableHighlight onPress={this.handleRegionButtonPressed}>
+				    	<View style={styles.buttonContainer}>
+				    		<Text style={styles.buttonText}>{this.state.region}</Text>
+				    	</View>
+				  	</TouchableHighlight>
 
 					<TouchableHighlight onPress={this.search}>
 						<View style={styles.buttonContainer}>
+							<Text style={styles.buttonText}>GO!</Text>
 						</View>
 					</TouchableHighlight>
 				</View>
@@ -114,10 +134,11 @@ var styles = StyleSheet.create({
 		borderRadius: 3,
 		borderColor :'#0ea378',
 		backgroundColor: 'black',
-		height: 40
+		height: 40,
+		marginTop: 10
 	},
 	centro: {
-		marginTop: 50,
+		marginTop: 180,
 	},
 	buttonText: {
 		fontSize: 18,
