@@ -1,11 +1,17 @@
 var React = require('react-native')
 	Region = require('./StaticData/Region.js'),
-	RegionView = require('./RegionView.js');
+	RegionView = require('./RegionView.js'),
+	SummonerView = require('./SummonerView.js');;
+
+var VERCION_LOL = '5.8.1' 
 
 var REQUEST_SUMMONER = 'https://lan.api.pvp.net/api/lol/';
 var REQUEST_MIDDLE = '/v1.4/summoner/by-name/';
 var REQUEST_COMPLEMENT = '?api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
 
+
+var API_SUMMONER_ICON = 'http://ddragon.leagueoflegends.com/cdn/'+VERCION_LOL+'/img/profileicon/';
+var SUMMONER_BASIC_DATA={};
 var {
 	StyleSheet,
 	View,
@@ -109,22 +115,25 @@ var SearchSummoner = React.createClass({
 			</View>
 		);
 	},
-
+	renderSummonerView: function(summoner){
+	    var obj = summoner[this.state.inputValue];
+	     SUMMONER_BASIC_DATA.id = obj.id;
+		 SUMMONER_BASIC_DATA.name = obj.name;// esta dado desde el input 
+		 SUMMONER_BASIC_DATA.region = summoner.region;//esta dada desde el imput 
+		 SUMMONER_BASIC_DATA.icon = API_SUMMONER_ICON + obj.profileIconId+".png";
+		 SUMMONER_BASIC_DATA.summonerLevel = obj.summonerLevel;
+	    return (  
+    	  <SummonerView
+      		summoner = {SUMMONER_BASIC_DATA}/>
+   
+  	  );
+  	},
+	
 	render: function() {
 		if(!this.state.loaded){
 			return this.renderStaticView();
 		}
-
-
-		/*
-			TODO Aqui se hace la llamada al modulo donde se mostrara
-			la informacion del summoner
-		*/
-    return (
-			<View>
-				<Text style={styles.centro}>Encontrado</Text>
-			</View>
-		);
+    	return this.renderSummonerView(this.state.summoner);
   },
 });
 
