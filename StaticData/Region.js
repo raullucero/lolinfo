@@ -1,16 +1,16 @@
 
 var Region = {
 	currency : [
-		{ "key" : "BR", "name" : "Brazil" },
-		{ "key" : "EUNE", "name" : "EU Nordic & East" },
-		{ "key" : "EUW", "name" : "EU West" },
-		{ "key" : "KR", "name" : "Korea" },
-		{ "key" : "LAN", "name" : "Latin America North" },
-		{ "key" : "LAS", "name" : "Latin America South" },
-		{ "key" : "NA", "name" : "North America" },
-		{ "key" : "OCE", "name" : "Oceania" },
-		{ "key" : "RU", "name" : "Russia" },
-		{ "key" : "TR", "name" : "Turkey" }
+		{ "key" : "br", "name" : "Brazil" },
+		{ "key" : "eune", "name" : "EU Nordic & East" },
+		{ "key" : "euw", "name" : "EU West" },
+		{ "key" : "kr", "name" : "Korea" },
+		{ "key" : "lan", "name" : "Latin America North" },
+		{ "key" : "las", "name" : "Latin America South" },
+		{ "key" : "na", "name" : "North America" },
+		{ "key" : "oce", "name" : "Oceania" },
+		{ "key" : "ru", "name" : "Russia" },
+		{ "key" : "tr", "name" : "Turkey" }
 	]
 };
 
