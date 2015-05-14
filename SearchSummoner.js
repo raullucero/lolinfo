@@ -29,7 +29,7 @@ var SearchSummoner = React.createClass({
     		loaded: false,
 			summoner: null,
 			inputValue: '',
-			region: 'LAN'
+			region: 'lan'
     };
   },
 	/*
@@ -57,7 +57,6 @@ var SearchSummoner = React.createClass({
       });
     })
     .done();
-    return console.log(urlRequest);
   },
 
 	search: function(){
@@ -119,7 +118,7 @@ var SearchSummoner = React.createClass({
 	    var obj = summoner[this.state.inputValue];
 	     SUMMONER_BASIC_DATA.id = obj.id;
 		 SUMMONER_BASIC_DATA.name = obj.name;// esta dado desde el input 
-		 SUMMONER_BASIC_DATA.region = summoner.region;//esta dada desde el imput 
+		 SUMMONER_BASIC_DATA.region = this.state.region;//esta dada desde el imput 
 		 SUMMONER_BASIC_DATA.icon = API_SUMMONER_ICON + obj.profileIconId+".png";
 		 SUMMONER_BASIC_DATA.summonerLevel = obj.summonerLevel;
 	    return (  
