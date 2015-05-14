@@ -1,5 +1,5 @@
 var React = require('react-native');
-
+var AllHistory = require('./AllHistory.js');
 var {
   View,
   Text,
@@ -24,6 +24,8 @@ var SummonerView = React.createClass({
               <Text style = {styles.level}>level-{this.props.summoner.summonerLevel}</Text>
             </View>
           </View>
+          <AllHistory 
+            summoner = {this.props.summoner}/>
       </View>
     );
   },
