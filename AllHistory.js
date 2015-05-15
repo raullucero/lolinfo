@@ -64,13 +64,12 @@ var AllHistory = React.createClass({
     //   component: CellHistory,
     //   passProps: {match},
     // });
-    return console.log(match);
   },
 
   renderHistory: function(match){
     return (
        <CellHistory 
-       onSelect={() => this.selectMatch(match)}
+      // onSelect={() => this.selectMatch(match)}
         match={match} />
 
     );
