@@ -4,7 +4,6 @@ var REQUEST_IMAGE_CHAMP_SMALL = 'http://ddragon.leagueoflegends.com/cdn/5.8.1/im
 
 var REQUEST_CHAMPION ='https://global.api.pvp.net/api/lol/static-data/lan/v1.2/champion/';
 var RECUEST_CHAMPION_COMPLEMENT='?champData=image&api_key=7623078e-62e4-4fa8-9397-174ca4dac061';
-var urlImage = '';
 var {
   View,
   Text,
@@ -17,13 +16,14 @@ var CellHistory = React.createClass({
 
   getInitialState: function() {
     return {
-        champion: null
+        champion: null,
+        loaded: false,
     };
   },
   componentDidMount: function(){
     this.fetchDataChamp();
   },
-
+//PARA OBTENER LOS DATOS DE IMGAEN CAMPEON 
   fetchDataChamp: function() {
     var urlRequest = REQUEST_CHAMPION +this.props.match.participants[0].championId + RECUEST_CHAMPION_COMPLEMENT;
     fetch(urlRequest)
@@ -31,19 +31,33 @@ var CellHistory = React.createClass({
     .then((responseData) => {
       this.setState({
        champion: responseData,
+       loaded: true
       });
     })
     .done();
   },
-  champi: function(){
-    urlImage = REQUEST_IMAGE_CHAMP_SMALL +this.state.champion.image.full;
-    return console.log(urlImage);
+
+  renderLoadingView: function() {
+    return (
+      <View style={styles.renderLoad}>
+        <Text>
+          Loading Match History...
+        </Text>
+      </View>
+    );
   },
+
   render: function() {
  
+    if(!this.state.loaded){
+      return this.renderLoadingView();
+    }
+
+    urlImage = REQUEST_IMAGE_CHAMP_SMALL +this.state.champion.image.full;
+
     return (
         <View>
-        <TouchableHighlight onPress={this.champi}>
+        <TouchableHighlight>
           <View style={styles.container}>
             <Image
               style={styles.image}
@@ -66,8 +80,15 @@ var styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
     borderWidth: .75,
     borderColor: '#000000',
-    marginTop: 184
+    
   },
+   renderLoad :{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+    marginTop: 184
+   },
   rightContainer: {
     flex: 1,
   },
