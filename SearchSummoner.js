@@ -3,7 +3,7 @@ var React = require('react-native')
 	RegionView = require('./RegionView.js'),
 	SummonerView = require('./SummonerView.js');;
 
-var VERCION_LOL = '5.8.1' 
+var VERCION_LOL = '5.9.1' 
 
 var REQUEST_SUMMONER = 'https://lan.api.pvp.net/api/lol/';
 var REQUEST_MIDDLE = '/v1.4/summoner/by-name/';
