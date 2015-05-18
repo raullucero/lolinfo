@@ -8,6 +8,7 @@ var REQUEST_IMAGE_ITEM = 'http://ddragon.leagueoflegends.com/cdn/5.9.1/img/item/
 
 var urlImageIcons_minions= 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/minion.png'; 
 var urlImageIcons_gold = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/gold.png';
+
 var {
   View,
   Text,
@@ -39,6 +40,13 @@ var CellHistory = React.createClass({
       });
     })
     .done();
+  }, 
+  //Funcion de REdondeo 
+  roundGoldEarned: function(gold){
+   var goldOriginal = parseFloat(gold/Math.pow(10,3));
+   var goldconvert = Math.round(goldOriginal*Math.pow(10,1))/Math.pow(10,1);
+       goldconvert = goldconvert + 'K';
+    return goldconvert;
   },
 
   renderLoadingView: function() {
@@ -53,10 +61,6 @@ var CellHistory = React.createClass({
 
   render: function() {
  
-    if(!this.state.loaded){
-      return this.renderLoadingView();
-    }
-
     urlImage = REQUEST_IMAGE_CHAMP_SMALL +this.state.champion.image.full;
     urlItemImge1 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item1 + '.png';
     urlItemImge2 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item2 + '.png';
@@ -66,10 +70,16 @@ var CellHistory = React.createClass({
     urlItemImge6 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item6 + '.png';
     urlItemImge7 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item7 + '.png';
     
-
+    //Para mostrar si gano o no 
     matchStatus = 'Defeat';  
     if(this.props.match.participants[0].stats.winner){
-     matchStatus = 'Victori';
+     matchStatus = 'Victory';
+    }
+    //para obtener de forma reducida el oro 
+    gold = this.roundGoldEarned(this.props.match.participants[0].stats.goldEarned);
+    
+    if(!this.state.loaded){
+      return this.renderLoadingView();
     }
     return (
         <View>
@@ -117,7 +127,7 @@ var CellHistory = React.createClass({
                  <Image
                    style={styles.iconimage}
                    source={{uri: urlImageIcons_gold}}/>
-                 <Text style={styles.iconText}> {this.props.match.participants[0].stats.goldEarned} </Text>
+                 <Text style={styles.iconText}> {gold} </Text>
                 </View>
               </View>
             </View>
