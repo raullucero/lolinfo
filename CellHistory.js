@@ -60,7 +60,9 @@ var CellHistory = React.createClass({
   },
 
   render: function() {
- 
+     if(!this.state.loaded){
+       return this.renderLoadingView();
+       }
     urlImage = REQUEST_IMAGE_CHAMP_SMALL +this.state.champion.image.full;
     urlItemImge1 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item1 + '.png';
     urlItemImge2 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item2 + '.png';
@@ -78,9 +80,7 @@ var CellHistory = React.createClass({
     //para obtener de forma reducida el oro 
     gold = this.roundGoldEarned(this.props.match.participants[0].stats.goldEarned);
     
-    if(!this.state.loaded){
-      return this.renderLoadingView();
-    }
+    
     return (
         <View>
         <TouchableHighlight>
