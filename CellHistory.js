@@ -48,6 +48,14 @@ var CellHistory = React.createClass({
        goldconvert = goldconvert + 'K';
     return goldconvert;
   },
+  imageItem:function(itemId){
+    var url = 'http://img4.wikia.nocookie.net/__cb20120503233936/leagueoflegends/images/6/64/No_Icon.png';
+    if (itemId != 0){ 
+      url =  REQUEST_IMAGE_ITEM + itemId + '.png';
+      return url;
+    }
+    return url
+  },
 
   renderLoadingView: function() {
     return (
@@ -64,13 +72,13 @@ var CellHistory = React.createClass({
        return this.renderLoadingView();
        }
     urlImage = REQUEST_IMAGE_CHAMP_SMALL +this.state.champion.image.full;
-    urlItemImge1 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item1 + '.png';
-    urlItemImge2 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item2 + '.png';
-    urlItemImge3 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item3 + '.png';
-    urlItemImge4 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item4 + '.png';
-    urlItemImge5 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item5 + '.png';
-    urlItemImge6 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item6 + '.png';
-    urlItemImge7 = REQUEST_IMAGE_ITEM + this.props.match.participants[0].stats.item7 + '.png';
+    urlItemImge1 = this.imageItem(this.props.match.participants[0].stats.item1); 
+    urlItemImge2 = this.imageItem(this.props.match.participants[0].stats.item2); 
+    urlItemImge3 = this.imageItem(this.props.match.participants[0].stats.item3); 
+    urlItemImge4 = this.imageItem(this.props.match.participants[0].stats.item4); 
+    urlItemImge5 = this.imageItem(this.props.match.participants[0].stats.item5); 
+    urlItemImge6 = this.imageItem(this.props.match.participants[0].stats.item6); 
+    urlItemImge7 = this.imageItem(this.props.match.participants[0].stats.item7); 
     
     //Para mostrar si gano o no 
     matchStatus = 'Defeat';  
