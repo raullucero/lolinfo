@@ -49,7 +49,7 @@ var CellHistory = React.createClass({
     return goldconvert;
   },
   imageItem:function(itemId){
-    var url = 'http://img4.wikia.nocookie.net/__cb20120503233936/leagueoflegends/images/6/64/No_Icon.png';
+    var url = 'http://promo.na.leagueoflegends.com/assets/snowdown-2014/img/game-mode/icon-2.png';
     if (itemId != 0){ 
       url =  REQUEST_IMAGE_ITEM + itemId + '.png';
       return url;

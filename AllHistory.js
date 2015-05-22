@@ -17,7 +17,8 @@ var {
   NavigatorIOS,
   View,
   TouchableHighlight,
-  ListView,
+  ListView, 
+  ScrollView,
 } = React;
 
 var AllHistory = React.createClass({
@@ -41,7 +42,7 @@ var AllHistory = React.createClass({
     .then((response) => response.json())
     .then((responseData) => {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(responseData.matches),
+        dataSource: this.state.dataSource.cloneWithRows(responseData.matches.reverse()),
         loaded: true,
       });
     })
@@ -59,17 +60,17 @@ var AllHistory = React.createClass({
   },
 
   selectMatch: function(match){
-    // this.props.navigator.push({
-    //   title: champion.name,
-    //   component: CellHistory,
-    //   passProps: {match},
-    // });
+  // this.props.navigator.push({
+     //   title: champion.name,
+     //   component: CellHistory,
+     //   passProps: {match},
+     // });
   },
 
   renderHistory: function(match){
     return (
        <CellHistory 
-      // onSelect={() => this.selectMatch(match)}
+         //onSelect={() => this.selectMatch(match)}
         match={match} />
 
     );
@@ -80,43 +81,29 @@ var AllHistory = React.createClass({
       return this.renderLoadingView();
     }
 
+
     return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderHistory}
-        keyboardDismissMode="onDrag"
-        keyboardShouldPersistTaps={true}
-        showsVerticalScrollIndicator={false} />
+      
+      <ScrollView
+        scrollEventThrottle={200}
+        contentInset={{top: -128}}
+        style={styles.scrollView}>
+        <ListView
+         dataSource={this.state.dataSource}
+         renderRow={this.renderHistory}
+         keyboardDismissMode="onDrag"
+         keyboardShouldPersistTaps={true}/>
+      </ScrollView>
     );
   },
 
 });
 
 var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    borderWidth: .75,
-    borderColor: '#000000',
+  scrollView: {
+    backgroundColor: '#6A85B1',
+    height: 520,
   },
-  rightContainer: {
-    flex: 1,
-  },
-  name: {
-    fontSize: 20,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  title: {
-    textAlign: 'center',
-  },
-  image: {
-    width: 60,
-    height: 60,
-  },
-
 });
 
 module.exports = AllHistory;
