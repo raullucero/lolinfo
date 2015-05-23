@@ -1,5 +1,6 @@
 var React = require('react-native');
 var Habilities = require('./Habilities');
+var DetailChampion = require('./DetailChampion')
 
 var REQUEST_IMAGE_SKIN = 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/';
 var REQUEST_CHAMP = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/';
@@ -83,46 +84,21 @@ var Champion = React.createClass({
     var blurpHTML = eval('this.state.champInfo.blurb');
 
     return (
-      <View>
+      <ScrollView>
         <ScrollView
           horizontal={true}
           contentInset={{top: 0}}
           style={[styles.scrollView, styles.horizontalScrollView]}>
           {SKINS_IMAGES.map(createSkinRow)}
         </ScrollView>
-        <View style={styles.container}>
+        <DetailChampion
+          champInfo={this.state.champInfo}/>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderHabilities}
+          style={styles.listView} />
+      </ScrollView>
 
-          <Text style={styles.name}>
-            {this.state.champInfo.name}
-          </Text>
-
-          <Text style={styles.title}>
-            {this.props.champion.title}
-          </Text>
-
-          <View style={styles.blurp}>
-            <Text>{blurpHTML}</Text>
-          </View>
-
-          <Text style={styles.section}>
-            History
-          </Text>
-
-          <Text style={styles.title}>
-            {this.state.champInfo.lore}
-          </Text>
-
-          <Text style={styles.section}>
-            Habilities
-          </Text>
-
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderHabilities}
-            style={styles.listView}
-          />
-        </View>
-      </View>
     );
   },
 
