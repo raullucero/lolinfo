@@ -1,5 +1,5 @@
 var React = require('react-native');
-var HistoryMatch = require('./HistoryMatch.js');
+//var HistoryMatch = require('./HistoryMatch.js');
 var CellHistory = require('./CellHistory.js');
 
 var REQUEST_MATCH_HYSTORY = 'https://lan.api.pvp.net/api/lol/';
@@ -17,7 +17,7 @@ var {
   NavigatorIOS,
   View,
   TouchableHighlight,
-  ListView, 
+  ListView,
   ScrollView,
 } = React;
 
@@ -69,7 +69,7 @@ var AllHistory = React.createClass({
 
   renderHistory: function(match){
     return (
-       <CellHistory 
+       <CellHistory
          //onSelect={() => this.selectMatch(match)}
         match={match} />
 
@@ -83,7 +83,7 @@ var AllHistory = React.createClass({
 
 
     return (
-      
+
       <ScrollView
         scrollEventThrottle={200}
         contentInset={{top: -128}}
