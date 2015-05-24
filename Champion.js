@@ -86,9 +86,11 @@ var Champion = React.createClass({
     return (
       <ScrollView>
         <ScrollView
-          horizontal={true}
-          contentInset={{top: 0}}
-          style={[styles.scrollView, styles.horizontalScrollView]}>
+          onScroll={() => { console.log('onScroll!'); }}
+          scrollEventThrottle={200}
+          contentInset={{top: -50}}
+          style={styles.scrollView}
+          horizontal={true} >
           {SKINS_IMAGES.map(createSkinRow)}
         </ScrollView>
         <DetailChampion
@@ -146,10 +148,8 @@ var styles = StyleSheet.create({
     textAlign: 'left',
   },
   scrollView: {
-    backgroundColor: '#000000',
-  },
-  horizontalScrollView: {
-    height: 310,
+    backgroundColor: 'black',
+    height: 270,
   },
   wrapperSkin: {
     width: 124,

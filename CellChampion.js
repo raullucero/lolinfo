@@ -10,6 +10,8 @@ var {
   StyleSheet,
 } = React;
 
+'use strict';
+
 CellChampion = React.createClass({
 
   render: function() {

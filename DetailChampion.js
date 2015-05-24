@@ -6,6 +6,8 @@ var {
   StyleSheet,
 } = React;
 
+'use strict';
+
 DetailChampion = React.createClass({
 
   render: function() {
