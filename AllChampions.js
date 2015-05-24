@@ -1,6 +1,7 @@
 var React = require('react-native');
 var Champion = require('./Champion');
 var CellChampion = require('./CellChampion');
+var SearchChampion = require('./SearchChampion.js');
 
 var REQUEST_URL = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
 
@@ -10,9 +11,10 @@ var REQUEST_URL = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champi
 var {
   StyleSheet,
   Text,
-  Image,
+  ScrollView,
   NavigatorIOS,
   View,
+  TextInput,
   TouchableHighlight,
   ListView,
 } = React;
@@ -25,6 +27,7 @@ var AllChampions = React.createClass({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
      loaded: false,
+     input: '',
     };
   },
 
@@ -62,7 +65,7 @@ var AllChampions = React.createClass({
     });
   },
 
-  renderChampion: function(champion){
+  renderRow: function(champion){
     return (
       <CellChampion
         onSelect={() => this.selectChampion(champion)}
@@ -77,13 +80,20 @@ var AllChampions = React.createClass({
     }
 
     return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderChampion}
-        keyboardDismissMode="onDrag"
-        keyboardShouldPersistTaps={true}
-        showsVerticalScrollIndicator={false}
-      />
+      <View
+        style={styles.containerScroll}>
+        <SearchChampion/>
+        <View style={styles.separator} />
+        <ListView
+          ref="listview"
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow}
+          automaticallyAdjustContentInsets={false}
+          keyboardDismissMode="onDrag"
+          keyboardShouldPersistTaps={true}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     );
   },
 
@@ -95,25 +105,14 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    borderWidth: .75,
-    borderColor: '#000000',
   },
-  rightContainer: {
+  containerScroll: {
     flex: 1,
   },
-  name: {
-    fontSize: 20,
-    marginBottom: 8,
-    textAlign: 'center',
+  separator: {
+    height: 1,
+    backgroundColor: '#eeeeee',
   },
-  title: {
-    textAlign: 'center',
-  },
-  image: {
-    width: 60,
-    height: 60,
-  },
-
 });
 
 module.exports = AllChampions;
