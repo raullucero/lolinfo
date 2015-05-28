@@ -69,8 +69,10 @@ var CellHistory = React.createClass({
   },
 
   _onPressDetails: function() {
+    //segun esto es una animacion, tomado de ract-native Examples UiExplorer ListView
     var config = layoutAnimationConfigs[20 % 3];
     LayoutAnimation.configureNext(config);
+   //una ves precionado cambiamos la variable de estado para mostrar los detalles
     this.setState({
       
       touched: this.state.touched === true ? false : true,
@@ -154,17 +156,17 @@ var CellHistory = React.createClass({
           {this.state.touched === true ?
             <View>
              <Text>
-              Oooo, look at this new text!  So awesome it may just be crazy.
-              Let me keep typing here so it wraps at least one line.
+              Total Daño Recibido : {this.props.match.participants[0].stats.totalDamageTaken}
             </Text> 
             <Text>
-              Oooo, look at this new text!  So awesome it may just be crazy.
-              Let me keep typing here so it wraps at least one line.
-            </Text> 
+            Total Daño Repartido : {this.props.match.participants[0].stats.totalDamageDealt}
+            </Text>
             <Text>
-              Oooo, look at this new text!  So awesome it may just be crazy.
-              Let me keep typing here so it wraps at least one line.
-            </Text> 
+              Multi Kill Mas Larga : {this.props.match.participants[0].stats.largestMultiKill}
+            </Text>
+            <Text>
+              Wards Colocados: {this.props.match.participants[0].stats.wardsPlaced}
+            </Text>
             </View> :
             <View/>
           }
