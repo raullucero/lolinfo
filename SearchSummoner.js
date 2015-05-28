@@ -25,37 +25,23 @@ var SearchSummoner = React.createClass({
 
 
 	getInitialState: function() {
-    return {
+   	 return {
     		loaded: false,
 			summoner: null,
 			inputValue: '',
 			region: 'lan'
-    };
+    	};
   },
-	/*
-		Metodos innecesarios ya que aqui no se esta haciendo ninguna consulta
-		solo es el muestreo de la interfaz osea que solo ocupamos render
-
-
-	renderLogSummonerView: function() {
-  	return (
-  		<View >
-   			<LogSummoner/>
-  		</View>
-    );
-  },
-
-	*/
 	fetchData: function() {
 		var urlRequest = REQUEST_SUMMONER + this.state.region +REQUEST_MIDDLE + this.state.inputValue + REQUEST_COMPLEMENT;
-    fetch(urlRequest)
-    .then((response) => response.json())
-    .then((responseData) => {
-      this.setState({
-       summoner: responseData,
-        loaded: true,
-      });
-    })
+  			fetch(urlRequest)
+    		.then((response) => response.json())
+    		.then((responseData) => {
+      		this.setState({
+       		summoner: responseData,
+        	loaded: true,
+      		});
+    	})
     .done();
   },
 
@@ -90,26 +76,24 @@ var SearchSummoner = React.createClass({
 	},
 	renderStaticView: function() {
 		return (
-			<View style = {styles.container}>
-				<View style = {styles.inputsContainer}>
-					<TextInput
-						style={styles.textInput}
-						onChange={
-							(event) => this.updateText(
-								event.nativeEvent.text
-          		)
-						}/>
-					<TouchableHighlight onPress={this.handleRegionButtonPressed}>
-				    	<View style={styles.buttonContainer}>
-				    		<Text style={styles.buttonText}>{this.state.region}</Text>
-				    	</View>
-				  	</TouchableHighlight>
+			<View style = {styles.body}>
+				<View style = {styles.main}>
+					<View style = {styles.container}>
+						<TextInput
+							style={styles.textInput}
+							onChange={
+								(event) => this.updateText(
+									event.nativeEvent.text
+	          					)
+							}/>
+						<TouchableHighlight style={styles.buttonContainer} onPress={this.handleRegionButtonPressed}>
+					    	<Text style={styles.buttonText}>{this.state.region}</Text>
+					  	</TouchableHighlight>
 
-					<TouchableHighlight onPress={this.search}>
-						<View style={styles.buttonContainer}>
+						<TouchableHighlight style={styles.buttonContainer} onPress={this.search}>
 							<Text style={styles.buttonText}>GO!</Text>
-						</View>
-					</TouchableHighlight>
+						</TouchableHighlight>
+					</View>
 				</View>
 			</View>
 		);
@@ -138,41 +122,37 @@ var SearchSummoner = React.createClass({
 
 var styles = StyleSheet.create({
 
-	buttonContainer : {
+	body:{
+    	backgroundColor:'#0B0B61',
+    	height: 800,
+  	},
+  	buttonContainer : {
 		borderRadius: 3,
 		borderColor :'#0ea378',
-		backgroundColor: 'black',
-		height: 40,
+		backgroundColor: '#ffd700',
+		height: 80,
 		marginTop: 10
 	},
-	centro: {
-		marginTop: 180,
-	},
 	buttonText: {
-		fontSize: 18,
+		fontSize: 22,
 		fontWeight: 'bold',
-		color: 'white',
+		color: 'black',
 		alignSelf: 'center',
-		marginTop: 8
+		marginTop: 30,
 	},
 	container: {
 		flex: 1,
 		padding: 16,
-		marginTop: 50
 	},
-	inputsContainer: {
-		marginTop : 150
+	main: {
+		marginTop : 200
 	},
 	textInput: {
 		height: 40,
 		marginBottom: 10,
-		marginTop: 10,
 		padding: 4,
 		fontSize: 18,
-		borderWidth: 1,
-		borderColor: '#0ea378',
 		backgroundColor: 'white',
-		borderRadius: 3,
 		justifyContent: 'flex-end'
 	}
 });

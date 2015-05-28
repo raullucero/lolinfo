@@ -8,6 +8,7 @@ var REQUEST_IMAGE_ITEM = 'http://ddragon.leagueoflegends.com/cdn/5.9.1/img/item/
 
 var urlImageIcons_minions= 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/minion.png'; 
 var urlImageIcons_gold = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/gold.png';
+var urlImageIcons_KDA= 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/score.png';
 
 var {
   View,
@@ -49,6 +50,19 @@ var CellHistory = React.createClass({
        goldconvert = goldconvert + 'K';
     return goldconvert;
   },
+  roundTime: function(time){
+    var minutes = Math.floor( time / 60 );
+    var seconds = time % 60;
+ 
+    //Anteponiendo un 0 a los minutos si son menos de 10 
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+ 
+    //Anteponiendo un 0 a los segundos si son menos de 10 
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+ 
+    var result = minutes + ":" + seconds;  // mm:ss 
+    return result;
+   },
   imageItem:function(itemId){
     var url = 'http://promo.na.leagueoflegends.com/assets/snowdown-2014/img/game-mode/icon-2.png';
     if (itemId != 0){ 
@@ -99,7 +113,7 @@ var CellHistory = React.createClass({
     }
     //para obtener de forma reducida el oro 
     gold = this.roundGoldEarned(this.props.match.participants[0].stats.goldEarned);
-    
+    duration = this.roundTime(this.props.match.matchDuration);
     
     return (
         
@@ -107,13 +121,26 @@ var CellHistory = React.createClass({
         <View>
           <View style={styles.container}>
             <Image
-              style={styles.image}
-              source={{uri: urlImage}}/>
-            <Text>{matchStatus}</Text>
-
+              style={[styles.champImage , styles.image]}
+              source={{uri: urlImage}}>
+              <Text style={styles.nestedText}>
+                {this.props.match.participants[0].stats.champLevel}
+              </Text>
+            </Image>
             <View style={styles.rightContainer}>
-              
-              <Text> {this.props.match.participants[0].stats.kills} / {this.props.match.participants[0].stats.deaths} / {this.props.match.participants[0].stats.assists} </Text>
+            <Text style={styles.simpleText} >{matchStatus}</Text>
+
+            <Text style={[styles.simpleText , styles.durationText]}>
+                  {duration}
+            </Text>
+            </View>
+            <View style={styles.ItemsContainer}>
+              <View style={styles.iconContainer}>
+                <Image
+                   style={styles.iconimage}
+                   source={{uri: urlImageIcons_KDA}}/>  
+                <Text style={styles.simpleText} > {this.props.match.participants[0].stats.kills} / {this.props.match.participants[0].stats.deaths} / {this.props.match.participants[0].stats.assists} </Text>
+              </View>
               <View style={styles.itemContiner}>
                 <Image
                 style={styles.itemimage}
@@ -142,13 +169,13 @@ var CellHistory = React.createClass({
                  <Image
                    style={styles.iconimage}
                    source={{uri: urlImageIcons_minions}}/>
-                 <Text style={styles.iconText} > {this.props.match.participants[0].stats.minionsKilled} </Text>
+                 <Text style={[styles.simpleText , styles.iconText]} > {this.props.match.participants[0].stats.minionsKilled} </Text>
                 </View>
                 <View style={styles.iconContainer}>
                  <Image
                    style={styles.iconimage}
                    source={{uri: urlImageIcons_gold}}/>
-                 <Text style={styles.iconText}> {gold} </Text>
+                 <Text style={[ styles.simpleText , styles.iconText]}> {gold} </Text>
                 </View>
               </View>
             </View>
@@ -183,10 +210,16 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#2c2c64',
     borderWidth: .75,
     borderColor: '#000000',
     
+  },
+  simpleText:{
+    color:'#E6E6E6'
+  },
+  durationText:{
+    marginRight:5,
   },
   iconsContainer:{
     flexDirection: 'row',
@@ -208,9 +241,17 @@ var styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
     marginTop: 184
    },
-  rightContainer: {
+  ItemsContainer: {
     flex: 1,
     alignItems: 'center',
+  },
+  rightContainer: {
+    flex: .2,
+    alignItems: 'center',
+  },
+  champImage:{
+    margin: 5,
+    backgroundColor: 'transparent'
   },
   image: {
     width: 60,
@@ -222,11 +263,18 @@ var styles = StyleSheet.create({
   },
   iconimage:{
     width: 21,
-    height: 22
+    height: 22,
+    margin: 1
   },
   iconText:{
     fontSize: 12,
-  }
+  },
+  nestedText: {
+    marginLeft: 40,
+    marginTop: 40,
+    backgroundColor: 'transparent',
+    color: '#E6E6E6'
+  },
 });
 //**************[Variables de Animacion]********************************
 var animations = {

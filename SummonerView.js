@@ -14,14 +14,14 @@ var SummonerView = React.createClass({
  
   render: function() {
     return (
-      <View>
+      <View style={styles.body}>
           <View style={styles.container}>
             <Image
               style={styles.image}
               source={{uri: this.props.summoner.icon}}/>
             <View style={styles.rightContainer}>
-              <Text style = {styles.name}>{this.props.summoner.name }</Text>
-              <Text style = {styles.level}>level-{this.props.summoner.summonerLevel}</Text>
+              <Text style = {[ styles.simpleText , styles.name]}>{this.props.summoner.name }</Text>
+              <Text style = {styles.simpleText}>level-{this.props.summoner.summonerLevel}</Text>
             </View>
           </View>
           <AllHistory 
@@ -32,13 +32,14 @@ var SummonerView = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  body:{
+      backgroundColor:'#0B0B61',
+    },
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    borderWidth: .75,
-    borderColor: '#000000',
+    backgroundColor: '#0c0c34',
     marginTop: 64
   },
   rightContainer: {
@@ -47,14 +48,15 @@ var styles = StyleSheet.create({
   name: {
     fontSize: 30,
     marginBottom: 8,
-    textAlign: 'center',
   },
-  level: {
+  simpleText: {
+    color: '#E6E6E6',
     textAlign: 'center',
   },
   image: {
     width: 80,
     height: 80,
+    margin: 5,
   },
 });
 
