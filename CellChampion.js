@@ -15,6 +15,10 @@ var {
 CellChampion = React.createClass({
 
   render: function() {
+    if(this.props.champion.name.indexOf(this.props.filter) === -1 && this.props.filter !== ''){
+      return;
+    }
+
     var urlImage = REQUEST_IMAGE_CHAMP_SMALL + this.props.champion.image.full;
 
     this.props.champion.title = this.props.champion.title.replace(

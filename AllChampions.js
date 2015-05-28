@@ -21,13 +21,16 @@ var {
 
 var AllChampions = React.createClass({
 
+  timeoutID: (null: any),
+
   getInitialState: function() {
     return {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
      loaded: false,
-     input: '',
+     filter: '',
+     change: false,
     };
   },
 
@@ -70,8 +73,19 @@ var AllChampions = React.createClass({
       <CellChampion
         onSelect={() => this.selectChampion(champion)}
         champion={champion}
+        filter={this.state.filter}
       />
     );
+  },
+
+  onSearchChange: function(event) {
+    var filter = event.nativeEvent.text.toLowerCase();
+    this.setState({
+      filter: filter,
+      change: true,
+    });
+    this.clearTimeout(this.timeoutID);
+    this.timeoutID = this.setTimeout(() => this.searchMovies(filter), 100);
   },
 
   render: function() {
@@ -79,20 +93,41 @@ var AllChampions = React.createClass({
       return this.renderLoadingView();
     }
 
+    var content =
+      <ListView
+        ref="listview"
+        dataSource={this.state.dataSource}
+        renderRow={this.renderRow}
+        automaticallyAdjustContentInsets={false}
+        keyboardDismissMode="onDrag"
+        keyboardShouldPersistTaps={true}
+        showsVerticalScrollIndicator={false}
+      />;
+
+    if(this.state.change){
+      content =
+      <ListView
+        ref="listview"
+        dataSource={this.state.dataSource}
+        renderRow={this.renderRow}
+        automaticallyAdjustContentInsets={false}
+        keyboardDismissMode="onDrag"
+        keyboardShouldPersistTaps={true}
+        showsVerticalScrollIndicator={false}
+      />;
+      this.setState({
+        change: false,
+      });
+    }
+
+
     return (
       <View
         style={styles.containerScroll}>
-        <SearchChampion/>
+        <SearchChampion
+          onSearchChange={this.onSearchChange} />
         <View style={styles.separator} />
-        <ListView
-          ref="listview"
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
-          automaticallyAdjustContentInsets={false}
-          keyboardDismissMode="onDrag"
-          keyboardShouldPersistTaps={true}
-          showsVerticalScrollIndicator={false}
-        />
+        {content}
       </View>
     );
   },
@@ -104,6 +139,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 50,
     backgroundColor: '#F5FCFF',
   },
   containerScroll: {
