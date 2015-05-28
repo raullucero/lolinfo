@@ -11,18 +11,19 @@ var urlImageIcons_gold = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/go
 
 var {
   View,
+  LayoutAnimation,
   Text,
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
   StyleSheet,
 } = React;
-
 var CellHistory = React.createClass({
 
   getInitialState: function() {
     return {
         champion: null,
         loaded: false,
+        touched:false,
     };
   },
   componentDidMount: function(){
@@ -67,6 +68,15 @@ var CellHistory = React.createClass({
     );
   },
 
+  _onPressDetails: function() {
+    var config = layoutAnimationConfigs[20 % 3];
+    LayoutAnimation.configureNext(config);
+    this.setState({
+      
+      touched: this.state.touched === true ? false : true,
+    });
+  },
+
   render: function() {
      if(!this.state.loaded){
        return this.renderLoadingView();
@@ -90,8 +100,9 @@ var CellHistory = React.createClass({
     
     
     return (
+        
+        <TouchableOpacity onPress={this._onPressDetails}>
         <View>
-        <TouchableHighlight>
           <View style={styles.container}>
             <Image
               style={styles.image}
@@ -140,8 +151,27 @@ var CellHistory = React.createClass({
               </View>
             </View>
           </View>
-        </TouchableHighlight>
-      </View>
+          {this.state.touched === true ?
+            <View>
+             <Text>
+              Oooo, look at this new text!  So awesome it may just be crazy.
+              Let me keep typing here so it wraps at least one line.
+            </Text> 
+            <Text>
+              Oooo, look at this new text!  So awesome it may just be crazy.
+              Let me keep typing here so it wraps at least one line.
+            </Text> 
+            <Text>
+              Oooo, look at this new text!  So awesome it may just be crazy.
+              Let me keep typing here so it wraps at least one line.
+            </Text> 
+            </View> :
+            <View/>
+          }
+        </View>
+          
+        </TouchableOpacity>
+      
     );
   },
 });
@@ -196,5 +226,37 @@ var styles = StyleSheet.create({
     fontSize: 12,
   }
 });
-
+//**************[Variables de Animacion]********************************
+var animations = {
+  layout: {
+    spring: {
+      duration: 750,
+      create: {
+        duration: 300,
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity,
+      },
+      update: {
+        type: LayoutAnimation.Types.spring,
+        springDamping: 0.4,
+      },
+    },
+    easeInEaseOut: {
+      duration: 300,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY,
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut,
+      },
+    },
+  },
+};
+var layoutAnimationConfigs = [
+  animations.layout.spring,
+  animations.layout.easeInEaseOut,
+];
+// ***********************************************************************
 module.exports = CellHistory;

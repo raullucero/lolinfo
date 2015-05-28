@@ -67,7 +67,7 @@ var AllHistory = React.createClass({
      // });
   },
 
-  renderHistory: function(match){
+  renderHistory: function(match): ReactElement {
     return (
        <CellHistory
          //onSelect={() => this.selectMatch(match)}
