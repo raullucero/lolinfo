@@ -142,7 +142,19 @@ var CellHistory = React.createClass({
               </Text>
             </Image>
             <View style={styles.rightContainer}>
-            <Text style={styles.simpleText} >{matchStatus}</Text>
+
+             { matchStatus === 'Victory' ?
+              <Text style={[styles.simpleText,styles.victoryText]} >
+                {matchStatus}
+               </Text> :
+               <Text />
+              } 
+              { matchStatus === 'Defeat' ?
+              <Text style={[styles.simpleText,styles.defeatText]} >
+                {matchStatus}
+               </Text> :
+               <Text />
+              }
 
             <Text style={[styles.simpleText , styles.durationText]}>
                   {duration}
@@ -246,6 +258,12 @@ var styles = StyleSheet.create({
   },
   simpleText:{
     color:'#E6E6E6'
+  },
+  victoryText:{
+    backgroundColor:'green'
+  },
+  defeatText:{
+    backgroundColor:'red'
   },
   durationText:{
     marginRight:5,
