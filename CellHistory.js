@@ -1,11 +1,11 @@
 var React = require('react-native');
+var RuneMatch = require('./RuneMatch.js')
 
 var REQUEST_IMAGE_CHAMP_SMALL = 'http://ddragon.leagueoflegends.com/cdn/5.8.1/img/champion/';
 
 var REQUEST_CHAMPION ='https://global.api.pvp.net/api/lol/static-data/lan/v1.2/champion/';
 var RECUEST_CHAMPION_COMPLEMENT='?champData=image&api_key=7623078e-62e4-4fa8-9397-174ca4dac061';
 var REQUEST_IMAGE_ITEM = 'http://ddragon.leagueoflegends.com/cdn/5.9.1/img/item/';
-
 var urlImageIcons_minions= 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/minion.png'; 
 var urlImageIcons_gold = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/gold.png';
 var urlImageIcons_KDA= 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/score.png';
@@ -15,6 +15,8 @@ var {
   LayoutAnimation,
   Text,
   Image,
+  ScrollView,
+  ListView,
   TouchableOpacity,
   StyleSheet,
 } = React;
@@ -25,6 +27,9 @@ var CellHistory = React.createClass({
         champion: null,
         loaded: false,
         touched:false,
+        dataSourceRune: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     };
   },
   componentDidMount: function(){
@@ -42,7 +47,7 @@ var CellHistory = React.createClass({
       });
     })
     .done();
-  }, 
+  },
   //Funcion de REdondeo 
   roundGoldEarned: function(gold){
    var goldOriginal = parseFloat(gold/Math.pow(10,3));
@@ -71,7 +76,6 @@ var CellHistory = React.createClass({
     }
     return url
   },
-
   renderLoadingView: function() {
     return (
       <View style={styles.renderLoad}>
@@ -81,8 +85,18 @@ var CellHistory = React.createClass({
       </View>
     );
   },
+  renderRowRune:function(rune): ReactElement {
+    return (
+       <RuneMatch
 
+        rune={rune} />
+
+    );
+  },
   _onPressDetails: function() {
+    this.setState({
+        dataSourceRune: this.state.dataSourceRune.cloneWithRows(this.props.match.participants[0].runes),
+      });
     //segun esto es una animacion, tomado de ract-native Examples UiExplorer ListView
     var config = layoutAnimationConfigs[20 % 3];
     LayoutAnimation.configureNext(config);
@@ -182,11 +196,21 @@ var CellHistory = React.createClass({
           </View>
           {this.state.touched === true ?
             <View>
+            
              <Text>
               Total Daño Recibido : {this.props.match.participants[0].stats.totalDamageTaken}
             </Text> 
             <Text>
-            Total Daño Repartido : {this.props.match.participants[0].stats.totalDamageDealt}
+              Total Daño Repartido : {this.props.match.participants[0].stats.totalDamageDealt}
+            </Text>
+             <Text>
+              Total Daño Verdadero Repartido : {this.props.match.participants[0].stats.trueDamageDealt}
+            </Text>
+            <Text>
+              Total Daño Fisico Repartido : {this.props.match.participants[0].stats.physicalDamageDealt}
+            </Text>
+            <Text>
+              Total Daño Magico Repartido : {this.props.match.participants[0].stats.magicDamageDealt}
             </Text>
             <Text>
               Multi Kill Mas Larga : {this.props.match.participants[0].stats.largestMultiKill}
@@ -194,6 +218,11 @@ var CellHistory = React.createClass({
             <Text>
               Wards Colocados: {this.props.match.participants[0].stats.wardsPlaced}
             </Text>
+            <ListView
+              dataSource={this.state.dataSourceRune}
+              renderRow={this.renderRowRune}
+              contentInset={{top: -65}}
+              style={styles.runelist}/>
             </View> :
             <View/>
           }
