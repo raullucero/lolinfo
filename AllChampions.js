@@ -5,7 +5,7 @@ var SearchChampion = require('./SearchChampion.js');
 var TimerMixin = require('react-timer-mixin');
 
 var REQUEST_URL = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
-
+var REQUEST_FREE_ROTATION = 'https://na.api.pvp.net/api/lol/na/v1.2/champion?freeToPlay=true&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
 
 'use strict';
 
@@ -35,6 +35,7 @@ var AllChampions = React.createClass({
       loaded: false,
       filter: '',
       jChampions: null,
+      jFreeRotation: null,
       jChampionsSearch: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
@@ -57,6 +58,15 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
         dataSource: this.state.dataSource.cloneWithRows(responseData.data),
         jChampions: responseData.data,
         loaded: true,
+      });
+    })
+    .done();
+
+    fetch(REQUEST_FREE_ROTATION)
+    .then((response) => response.json())
+    .then((responseData) => {
+      this.setState({
+        jFreeRotation: responseData.champions,
       });
     })
     .done();
@@ -128,6 +138,24 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
     //console.log(arrayChamps);
   },
 
+  showFreeRotation: function(){
+    var freeChamps = {};
+    for(var i = 0; i < 11; i++){
+      var id = this.state.jFreeRotation[i].id;
+      //this.state.jChampions[id];
+      //console.log(this.state.jChampions);
+      for(var item in this.state.jChampions){
+        if(this.state.jChampions[item].id === id ){
+          freeChamps[item] = this.state.jChampions[item];
+        }
+      }
+    }
+    this.setState({
+      jChampionsSearch: this.state.dataSource.cloneWithRows(freeChamps),
+    });
+
+  },
+
   render: function() {
     if(!this.state.loaded){
       return this.renderLoadingView();
@@ -135,7 +163,7 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
 
     //console.log(this.state.jChampionsSearch);
     //console.log(this.state.dataSource);
-
+    console.log(this.state.jFreeRotation);
     var content = this.state.jChampionsSearch.getRowCount() === 0 && this.state.filter.length === 0 ?
       <ListView
         ref="listview"
@@ -161,7 +189,8 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
       <View
         style={styles.containerScroll}>
         <SearchChampion
-          onSearchChange={this.onSearchChange} />
+          onSearchChange={this.onSearchChange}
+          showFreeRotation={this.showFreeRotation} />
         <View style={styles.separator} />
         {content}
       </View>
