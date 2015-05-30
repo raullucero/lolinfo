@@ -35,9 +35,9 @@ var AllChampions = React.createClass({
       loaded: false,
       filter: '',
       jChampions: null,
-      jChampionsSearch: null,
-      search: false,
-
+      jChampionsSearch: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     };
   },
 
@@ -95,7 +95,7 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
     this.setState({
       filter: filter,
     });
-    this.timeoutID = this.setTimeout(() => this.searchingChampion(filter), 200);
+    this.timeoutID = this.setTimeout(() => this.searchingChampion(filter), 100);
 
 
     //console.log(this.state.filter);
@@ -104,19 +104,26 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
   searchingChampion: function(){
     var arrayChamps = {};
 
-    if(this.state.filter.lenght > 0){
+    if(this.state.filter.length > 0){
       this.state.filter = this.state.filter.toLowerCase();
 
       for(var champion in this.state.jChampions){
         //console.log(champion);
-        champion = champion.toLowerCase();
-        if(champion.indexOf(this.state.filter)!==-1){
+        var nchampion = champion.toLowerCase();
+        if(nchampion.indexOf(this.state.filter) !== -1){
           console.log('entro');
           arrayChamps[champion] = this.state.jChampions[champion];
         }
       }
-    }else{
-      arrayChamps = this.state.jChampions;
+      //console.log(arrayChamps);
+      this.setState({
+        jChampionsSearch: this.state.dataSource.cloneWithRows(arrayChamps),
+      });
+
+    }else if(this.state.filter.length === 0){
+      this.setState({
+        jChampionsSearch: this.state.dataSource,
+      });
     }
     //console.log(arrayChamps);
   },
@@ -126,43 +133,54 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
       return this.renderLoadingView();
     }
 
+    //console.log(this.state.jChampionsSearch);
+    //console.log(this.state.dataSource);
 
+    var content = this.state.jChampionsSearch.getRowCount() === 0 && this.state.filter.length === 0 ?
+      <ListView
+        ref="listview"
+        dataSource={this.state.dataSource}
+        renderRow={this.renderRow}
+        automaticallyAdjustContentInsets={false}
+        keyboardDismissMode="onDrag"
+        keyboardShouldPersistTaps={true}
+        showsVerticalScrollIndicator={false} /> : this.state.jChampionsSearch.getRowCount() > 0 ?
+      <ListView
+        ref="listview"
+        dataSource={this.state.jChampionsSearch}
+        renderRow={this.renderRow}
+        automaticallyAdjustContentInsets={false}
+        keyboardDismissMode="onDrag"
+        keyboardShouldPersistTaps={true}
+        showsVerticalScrollIndicator={false} /> :
+      <NoChamps
+        filter={this.state.filter} />;
 
-    console.log(this.state.jChampions);
+    //console.log(this.state.jChampions);
     return (
       <View
         style={styles.containerScroll}>
         <SearchChampion
           onSearchChange={this.onSearchChange} />
         <View style={styles.separator} />
-          <ListView
-            ref="listview"
-            dataSource={this.state.dataSource}
-            renderRow={this.renderRow}
-            automaticallyAdjustContentInsets={false}
-            keyboardDismissMode="onDrag"
-            keyboardShouldPersistTaps={true}
-            showsVerticalScrollIndicator={false}
-          />
+        {content}
       </View>
     );
   },
 
 });
 
-var NoMovies = React.createClass({
+var NoChamps = React.createClass({
   render: function() {
     var text = '';
     if (this.props.filter) {
       text = `No results for “${this.props.filter}”`;
-    } else if (!this.props.isLoading) {
-      // If we're looking at the latest movies, aren't currently loading, and
-      // still have no results, show a message
-      text = 'No movies found';
+    } else {
+      text = 'No champion found';
     }
 
     return (
-      <View style={[styles.container, styles.centerText]}>
+      <View style={[styles.containerNoChamp, styles.centerText]}>
         <Text style={styles.noMoviesText}>{text}</Text>
       </View>
     );
@@ -177,12 +195,18 @@ var styles = StyleSheet.create({
     marginTop: 50,
     backgroundColor: '#F5FCFF',
   },
+  containerNoChamp: {
+    flex: 1,
+  },
   containerScroll: {
     flex: 1,
   },
   separator: {
     height: 1,
     backgroundColor: '#eeeeee',
+  },
+  centerText: {
+    alignItems: 'center',
   },
 });
 
