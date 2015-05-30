@@ -5,6 +5,8 @@ var {
   TextInput,
   ActivityIndicatorIOS,
   StyleSheet,
+  Text,
+  TouchableHighlight,
 } = React;
 
 'use strict';
@@ -23,7 +25,14 @@ var SearchChampion = React.createClass({
           //onFocus={this.props.onFocus}
           style={styles.searchBarInput}
         />
-
+        <TouchableHighlight
+          style={styles.button}
+          underlayColor='#99d9f4'
+          onPress={this.props.showFreeRotation}>
+            <Text style={styles.buttonText}>
+              Free
+            </Text>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -41,7 +50,23 @@ var styles = StyleSheet.create({
   searchBarInput: {
     height: 36,
     fontSize: 18,
+    flex: 4,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 30,
     flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 8,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
 });
 
