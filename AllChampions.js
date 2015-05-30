@@ -103,17 +103,22 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
 
   searchingChampion: function(){
     var arrayChamps = {};
-    this.state.filter = this.state.filter.toLowerCase();
 
-    for(var champion in this.state.jChampions){
-      //console.log(champion);
-      champion = champion.toLowerCase();
-      if(champion.indexOf(this.state.filter)!==-1){
-        console.log('entro');
-        arrayChamps[champion] = this.state.jChampions[champion];
+    if(this.state.filter.lenght > 0){
+      this.state.filter = this.state.filter.toLowerCase();
+
+      for(var champion in this.state.jChampions){
+        //console.log(champion);
+        champion = champion.toLowerCase();
+        if(champion.indexOf(this.state.filter)!==-1){
+          console.log('entro');
+          arrayChamps[champion] = this.state.jChampions[champion];
+        }
       }
+    }else{
+      arrayChamps = this.state.jChampions;
     }
-    console.log(arrayChamps);
+    //console.log(arrayChamps);
   },
 
   render: function() {
