@@ -86,7 +86,6 @@ var Champion = React.createClass({
     return (
       <ScrollView>
         <ScrollView
-          onScroll={() => { console.log('onScroll!'); }}
           scrollEventThrottle={200}
           contentInset={{top: -50}}
           style={styles.scrollView}

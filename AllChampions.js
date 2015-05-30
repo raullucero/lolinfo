@@ -1,32 +1,50 @@
 var React = require('react-native');
 var Champion = require('./Champion');
 var CellChampion = require('./CellChampion');
+var SearchChampion = require('./SearchChampion.js');
+var TimerMixin = require('react-timer-mixin');
 
 var REQUEST_URL = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
-
+var REQUEST_FREE_ROTATION = 'https://na.api.pvp.net/api/lol/na/v1.2/champion?freeToPlay=true&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
 
 'use strict';
 
 var {
   StyleSheet,
   Text,
-  Image,
+  ScrollView,
   NavigatorIOS,
   View,
+  TextInput,
   TouchableHighlight,
   ListView,
 } = React;
 
+
+
 var AllChampions = React.createClass({
+  mixins: [TimerMixin],
+
+  timeoutID: (null: any),
 
   getInitialState: function() {
     return {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-     loaded: false,
+      loaded: false,
+      filter: '',
+      jChampions: null,
+      jFreeRotation: null,
+      jChampionsSearch: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     };
   },
+
+/* IDEA Tener dos datasource de la listview para el manejo de la busqueda
+una busqueda sera para referencia de allchampions y la otra se hara a partir de eso para
+la busqueda de el campeon ingresado en el campo de busqueda*/
 
   componentDidMount: function(){
     this.fetchData();
@@ -38,7 +56,17 @@ var AllChampions = React.createClass({
     .then((responseData) => {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(responseData.data),
+        jChampions: responseData.data,
         loaded: true,
+      });
+    })
+    .done();
+
+    fetch(REQUEST_FREE_ROTATION)
+    .then((response) => response.json())
+    .then((responseData) => {
+      this.setState({
+        jFreeRotation: responseData.champions,
       });
     })
     .done();
@@ -62,13 +90,70 @@ var AllChampions = React.createClass({
     });
   },
 
-  renderChampion: function(champion){
+  renderRow: function(champion){
     return (
       <CellChampion
         onSelect={() => this.selectChampion(champion)}
         champion={champion}
+        filter={this.state.filter}
       />
     );
+  },
+
+  onSearchChange: function(event) {
+    var filter = event.nativeEvent.text.toLowerCase();
+    this.setState({
+      filter: filter,
+    });
+    this.timeoutID = this.setTimeout(() => this.searchingChampion(filter), 100);
+
+
+    //console.log(this.state.filter);
+  },
+
+  searchingChampion: function(){
+    var arrayChamps = {};
+
+    if(this.state.filter.length > 0){
+      this.state.filter = this.state.filter.toLowerCase();
+
+      for(var champion in this.state.jChampions){
+        //console.log(champion);
+        var nchampion = champion.toLowerCase();
+        if(nchampion.indexOf(this.state.filter) !== -1){
+          //console.log('entro');
+          arrayChamps[champion] = this.state.jChampions[champion];
+        }
+      }
+      //console.log(arrayChamps);
+      this.setState({
+        jChampionsSearch: this.state.dataSource.cloneWithRows(arrayChamps),
+      });
+
+    }else if(this.state.filter.length === 0){
+      this.setState({
+        jChampionsSearch: this.state.dataSource,
+      });
+    }
+    //console.log(arrayChamps);
+  },
+
+  showFreeRotation: function(){
+    var freeChamps = {};
+    for(var i = 0; i < 11; i++){
+      var id = this.state.jFreeRotation[i].id;
+      //this.state.jChampions[id];
+      //console.log(this.state.jChampions);
+      for(var item in this.state.jChampions){
+        if(this.state.jChampions[item].id === id ){
+          freeChamps[item] = this.state.jChampions[item];
+        }
+      }
+    }
+    this.setState({
+      jChampionsSearch: this.state.dataSource.cloneWithRows(freeChamps),
+    });
+
   },
 
   render: function() {
@@ -76,17 +161,59 @@ var AllChampions = React.createClass({
       return this.renderLoadingView();
     }
 
-    return (
+    //console.log(this.state.jChampionsSearch);
+    //console.log(this.state.dataSource);
+    console.log(this.state.jFreeRotation);
+    var content = this.state.jChampionsSearch.getRowCount() === 0 && this.state.filter.length === 0 ?
       <ListView
+        ref="listview"
         dataSource={this.state.dataSource}
-        renderRow={this.renderChampion}
+        renderRow={this.renderRow}
+        automaticallyAdjustContentInsets={false}
         keyboardDismissMode="onDrag"
         keyboardShouldPersistTaps={true}
-        showsVerticalScrollIndicator={false}
-      />
+        showsVerticalScrollIndicator={false} /> : this.state.jChampionsSearch.getRowCount() > 0 ?
+      <ListView
+        ref="listview"
+        dataSource={this.state.jChampionsSearch}
+        renderRow={this.renderRow}
+        automaticallyAdjustContentInsets={false}
+        keyboardDismissMode="onDrag"
+        keyboardShouldPersistTaps={true}
+        showsVerticalScrollIndicator={false} /> :
+      <NoChamps
+        filter={this.state.filter} />;
+
+    //console.log(this.state.jChampions);
+    return (
+      <View
+        style={styles.containerScroll}>
+        <SearchChampion
+          onSearchChange={this.onSearchChange}
+          showFreeRotation={this.showFreeRotation} />
+        <View style={styles.separator} />
+        {content}
+      </View>
     );
   },
 
+});
+
+var NoChamps = React.createClass({
+  render: function() {
+    var text = '';
+    if (this.props.filter) {
+      text = `No results for “${this.props.filter}”`;
+    } else {
+      text = 'No champion found';
+    }
+
+    return (
+      <View style={[styles.containerNoChamp, styles.centerText]}>
+        <Text style={styles.noMoviesText}>{text}</Text>
+      </View>
+    );
+  }
 });
 
 var styles = StyleSheet.create({
@@ -94,26 +221,22 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 50,
     backgroundColor: '#F5FCFF',
-    borderWidth: .75,
-    borderColor: '#000000',
   },
-  rightContainer: {
+  containerNoChamp: {
     flex: 1,
   },
-  name: {
-    fontSize: 20,
-    marginBottom: 8,
-    textAlign: 'center',
+  containerScroll: {
+    flex: 1,
   },
-  title: {
-    textAlign: 'center',
+  separator: {
+    height: 1,
+    backgroundColor: '#eeeeee',
   },
-  image: {
-    width: 60,
-    height: 60,
+  centerText: {
+    alignItems: 'center',
   },
-
 });
 
 module.exports = AllChampions;
