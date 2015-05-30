@@ -133,9 +133,9 @@ var CellHistory = React.createClass({
         
         <TouchableOpacity onPress={this._onPressDetails}>
         <View>
-          <View style={styles.container}>
+          <View style={[styles.container , styles.ligthBlue]}>
             <Image
-              style={[styles.champImage , styles.image]}
+              style={[styles.layoutImage, styles.image]}
               source={{uri: urlImage}}>
               <Text style={styles.nestedText}>
                 {this.props.match.participants[0].stats.champLevel}
@@ -160,7 +160,7 @@ var CellHistory = React.createClass({
                   {duration}
             </Text>
             </View>
-            <View style={styles.ItemsContainer}>
+            <View style={styles.CenterContainer}>
               <View style={styles.iconContainer}>
                 <Image
                    style={styles.iconimage}
@@ -208,28 +208,29 @@ var CellHistory = React.createClass({
           </View>
           {this.state.touched === true ?
             <View>
-            
-             <Text>
-              Total Daño Recibido : {this.props.match.participants[0].stats.totalDamageTaken}
-            </Text> 
-            <Text>
-              Total Daño Repartido : {this.props.match.participants[0].stats.totalDamageDealt}
-            </Text>
-             <Text>
-              Total Daño Verdadero Repartido : {this.props.match.participants[0].stats.trueDamageDealt}
-            </Text>
-            <Text>
-              Total Daño Fisico Repartido : {this.props.match.participants[0].stats.physicalDamageDealt}
-            </Text>
-            <Text>
-              Total Daño Magico Repartido : {this.props.match.participants[0].stats.magicDamageDealt}
-            </Text>
-            <Text>
-              Multi Kill Mas Larga : {this.props.match.participants[0].stats.largestMultiKill}
-            </Text>
-            <Text>
-              Wards Colocados: {this.props.match.participants[0].stats.wardsPlaced}
-            </Text>
+             <View style={[styles.CenterContainer, styles.ligthBlue]}>
+              <Text style={[styles.simpleText]}> 
+                Total Daño Recibido : {this.props.match.participants[0].stats.totalDamageTaken}
+              </Text> 
+              <Text style={[styles.simpleText]}> 
+                Total Daño Repartido : {this.props.match.participants[0].stats.totalDamageDealt}
+              </Text>
+              <Text style={[styles.simpleText]}> 
+                Total Daño Verdadero Repartido : {this.props.match.participants[0].stats.trueDamageDealt}
+              </Text>
+              <Text style={[styles.simpleText]}> 
+                Total Daño Fisico Repartido : {this.props.match.participants[0].stats.physicalDamageDealt}
+              </Text>
+              <Text style={[styles.simpleText]}> 
+                Total Daño Magico Repartido : {this.props.match.participants[0].stats.magicDamageDealt}
+              </Text>
+              <Text style={[styles.simpleText]}> 
+                Multi Kill Mas Larga : {this.props.match.participants[0].stats.largestMultiKill}
+              </Text>
+              <Text style={[styles.simpleText]}> 
+                Wards Colocados: {this.props.match.participants[0].stats.wardsPlaced}
+              </Text>
+            </View>
             <ListView
               dataSource={this.state.dataSourceRune}
               renderRow={this.renderRowRune}
@@ -251,10 +252,12 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2c2c64',
     borderWidth: .75,
     borderColor: '#000000',
-    
+  },
+  ligthBlue:{
+
+    backgroundColor: '#2c2c64',
   },
   simpleText:{
     color:'#E6E6E6'
@@ -288,7 +291,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
     marginTop: 184
    },
-  ItemsContainer: {
+  CenterContainer: {
     flex: 1,
     alignItems: 'center',
   },
@@ -296,7 +299,7 @@ var styles = StyleSheet.create({
     flex: .2,
     alignItems: 'center',
   },
-  champImage:{
+  layoutImage:{
     margin: 5,
     backgroundColor: 'transparent'
   },
