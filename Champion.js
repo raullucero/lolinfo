@@ -81,8 +81,12 @@ var Champion = React.createClass({
       SKINS_IMAGES.push(image);
     });
 
-    var blurpHTML = eval('this.state.champInfo.blurb');
-
+    //var blurpHTML = eval('this.state.champInfo.blurb');
+    this.state.champInfo.title = this.state.champInfo.title.replace(
+      /^[a-z]/, function(m){
+        return m.toUpperCase()
+       }
+    );
     return (
       <ScrollView>
         <ScrollView
@@ -92,12 +96,22 @@ var Champion = React.createClass({
           horizontal={true} >
           {SKINS_IMAGES.map(createSkinRow)}
         </ScrollView>
-        <DetailChampion
-          champInfo={this.state.champInfo}/>
+        <Text style={styles.name}>
+          {this.state.champInfo.name}
+        </Text>
+
+        <Text style={styles.title}>
+          {this.state.champInfo.title}
+        </Text>
+        <Text style={styles.sections}>
+          Habilities
+        </Text>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderHabilities}
-          style={styles.listView} />
+          style={styles.listView}
+          automaticallyAdjustContentInsets={false}/>
+
       </ScrollView>
 
     );
@@ -121,31 +135,6 @@ var Skin = React.createClass({
 var createSkinRow = (uri, i) => <Skin key={i} uri={uri} />;
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  name: {
-    fontSize: 24,
-    marginTop: 7,
-    textAlign: 'center',
-    paddingLeft: 5,
-    fontWeight: 'bold'
-  },
-  blurp: {
-    margin: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 12,
-    textAlign: 'center',
-    paddingLeft: 16,
-  },
-  section: {
-    fontWeight: 'bold',
-    textAlign: 'left',
-  },
   scrollView: {
     backgroundColor: 'black',
     height: 270,
@@ -155,7 +144,18 @@ var styles = StyleSheet.create({
     height: 224,
   },
   listView: {
-    height: 250,
+
+  },
+  name: {
+    fontSize: 26,
+    marginTop: 7,
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  title: {
+    fontSize: 11,
+    textAlign: 'center',
+    paddingBottom: 6,
   },
   button: {
     margin: 7,
@@ -163,6 +163,12 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#1C1C1C',
     borderRadius: 3,
+  },
+  sections: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    padding: 6,
+    textAlign: 'center',
   },
 });
 

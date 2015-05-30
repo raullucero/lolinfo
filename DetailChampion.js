@@ -21,21 +21,6 @@ DetailChampion = React.createClass({
           {this.props.champInfo.title}
         </Text>
 
-        <View style={styles.blurp}>
-          <Text>{this.props.champInfo.blurp}</Text>
-        </View>
-
-        <Text style={styles.section}>
-          History
-        </Text>
-
-        <Text style={styles.title}>
-          {this.props.champInfo.lore}
-        </Text>
-
-        <Text style={styles.section}>
-          Habilities
-        </Text>
       </View>
     );
   }
@@ -63,6 +48,7 @@ var styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     paddingLeft: 16,
+    paddingBottom: 6,
   },
   section: {
     fontWeight: 'bold',

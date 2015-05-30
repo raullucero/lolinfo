@@ -15,7 +15,7 @@ var Habilities = React.createClass({
     var urlImage = REQUEST_IMAGE_SPELL + this.props.spell.image.full;
 
     return (
-      <View>
+      <View style={styles.wrapperContainer}>
         <View style={styles.container}>
           <Image
             style={styles.image}
@@ -29,7 +29,7 @@ var Habilities = React.createClass({
           </View>
         </View>
         <View style={styles.description}>
-          <Text>{this.props.spell.description}</Text>
+          <Text style={styles.textDescription}>   {this.props.spell.description}</Text>
         </View>
       </View>
     );
@@ -40,24 +40,40 @@ var styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: '#F5FCFF',
-    paddingTop: 3,
+    margin: 4,
+  },
+  wrapperContainer: {
+    borderWidth: 1.5,
+    borderColor: '#000000',
   },
   name: {
-    fontSize: 16,
+    fontSize: 18,
+    paddingLeft: 8,
   },
   cost: {
     fontSize: 12,
+    paddingLeft: 8,
+    paddingTop: 4,
+    fontStyle: 'italic',
   },
   description: {
     flex: 1,
-    fontSize: 13,
+    paddingLeft: 4,
+    paddingBottom: 4,
+
+  },
+  textDescription: {
+    fontSize: 12,
   },
   rightContainer: {
     flex: 1,
   },
   image: {
+    padding: 8,
     width: 44,
     height: 44,
+    borderWidth: 4,
+    borderColor: '#000000',
   },
 });
 
