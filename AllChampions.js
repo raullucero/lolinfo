@@ -2,6 +2,7 @@ var React = require('react-native');
 var Champion = require('./Champion');
 var CellChampion = require('./CellChampion');
 var SearchChampion = require('./SearchChampion.js');
+var TimerMixin = require('react-timer-mixin');
 
 var REQUEST_URL = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
 
@@ -19,7 +20,10 @@ var {
   ListView,
 } = React;
 
+
+
 var AllChampions = React.createClass({
+  mixins: [TimerMixin],
 
   timeoutID: (null: any),
 
@@ -28,11 +32,18 @@ var AllChampions = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-     loaded: false,
-     filter: '',
-     change: false,
+      loaded: false,
+      filter: '',
+      jChampions: null,
+      jChampionsSearch: null,
+      search: false,
+
     };
   },
+
+/* IDEA Tener dos datasource de la listview para el manejo de la busqueda
+una busqueda sera para referencia de allchampions y la otra se hara a partir de eso para
+la busqueda de el campeon ingresado en el campo de busqueda*/
 
   componentDidMount: function(){
     this.fetchData();
@@ -44,6 +55,7 @@ var AllChampions = React.createClass({
     .then((responseData) => {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(responseData.data),
+        jChampions: responseData.data,
         loaded: true,
       });
     })
@@ -82,10 +94,26 @@ var AllChampions = React.createClass({
     var filter = event.nativeEvent.text.toLowerCase();
     this.setState({
       filter: filter,
-      change: true,
     });
-    this.clearTimeout(this.timeoutID);
-    this.timeoutID = this.setTimeout(() => this.searchMovies(filter), 100);
+    this.timeoutID = this.setTimeout(() => this.searchingChampion(filter), 200);
+
+
+    //console.log(this.state.filter);
+  },
+
+  searchingChampion: function(){
+    var arrayChamps = {};
+    this.state.filter = this.state.filter.toLowerCase();
+
+    for(var champion in this.state.jChampions){
+      //console.log(champion);
+      champion = champion.toLowerCase();
+      if(champion.indexOf(this.state.filter)!==-1){
+        console.log('entro');
+        arrayChamps[champion] = this.state.jChampions[champion];
+      }
+    }
+    console.log(arrayChamps);
   },
 
   render: function() {
@@ -93,45 +121,47 @@ var AllChampions = React.createClass({
       return this.renderLoadingView();
     }
 
-    var content =
-      <ListView
-        ref="listview"
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
-        automaticallyAdjustContentInsets={false}
-        keyboardDismissMode="onDrag"
-        keyboardShouldPersistTaps={true}
-        showsVerticalScrollIndicator={false}
-      />;
-
-    if(this.state.change){
-      content =
-      <ListView
-        ref="listview"
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
-        automaticallyAdjustContentInsets={false}
-        keyboardDismissMode="onDrag"
-        keyboardShouldPersistTaps={true}
-        showsVerticalScrollIndicator={false}
-      />;
-      this.setState({
-        change: false,
-      });
-    }
 
 
+    console.log(this.state.jChampions);
     return (
       <View
         style={styles.containerScroll}>
         <SearchChampion
           onSearchChange={this.onSearchChange} />
         <View style={styles.separator} />
-        {content}
+          <ListView
+            ref="listview"
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow}
+            automaticallyAdjustContentInsets={false}
+            keyboardDismissMode="onDrag"
+            keyboardShouldPersistTaps={true}
+            showsVerticalScrollIndicator={false}
+          />
       </View>
     );
   },
 
+});
+
+var NoMovies = React.createClass({
+  render: function() {
+    var text = '';
+    if (this.props.filter) {
+      text = `No results for “${this.props.filter}”`;
+    } else if (!this.props.isLoading) {
+      // If we're looking at the latest movies, aren't currently loading, and
+      // still have no results, show a message
+      text = 'No movies found';
+    }
+
+    return (
+      <View style={[styles.container, styles.centerText]}>
+        <Text style={styles.noMoviesText}>{text}</Text>
+      </View>
+    );
+  }
 });
 
 var styles = StyleSheet.create({
