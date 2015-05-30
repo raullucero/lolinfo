@@ -163,7 +163,7 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
 
     //console.log(this.state.jChampionsSearch);
     //console.log(this.state.dataSource);
-    console.log(this.state.jFreeRotation);
+    //console.log(this.state.jFreeRotation);
     var content = this.state.jChampionsSearch.getRowCount() === 0 && this.state.filter.length === 0 ?
       <ListView
         ref="listview"
