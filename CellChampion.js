@@ -1,6 +1,6 @@
 var React = require('react-native');
 
-var REQUEST_IMAGE_CHAMP_SMALL = 'http://ddragon.leagueoflegends.com/cdn/5.8.1/img/champion/';
+var REQUEST_IMAGE_CHAMP_SMALL = 'http://ddragon.leagueoflegends.com/cdn/5.10.1/img/champion/';
 
 var {
   View,
