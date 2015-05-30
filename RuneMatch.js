@@ -50,14 +50,16 @@ var RuneMatch = React.createClass({
     urlImge = REQUEST_IMAGE_RUNE + this.state.runeUsed.image.full;
     return (
         
-          <View style={styles.container}>
+          <View style={[styles.container, styles.ligthBlue]}>
             <Image
-              style={styles.image}
+              style={[styles.image , styles.layoutImage]}
               source={{uri: urlImge}}/>
-            <Text> X {this.props.rune.rank}</Text>
-            <View >
-                <Text>{this.state.runeUsed.name}</Text>
-                <Text>{this.state.runeUsed.description}</Text>
+            <Text style={[ styles.simpleText]}> X {this.props.rune.rank}</Text>
+            <View style={[styles.rightContainer]}>
+              <Text style={[ styles.simpleText]}>{this.state.runeUsed.name}</Text>
+              <Text style={[ styles.simpleText]}>
+                {this.state.runeUsed.description}
+              </Text>
             </View>
           </View>
 
@@ -70,14 +72,27 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   rightContainer: {
     flex: 1,
+    alignItems: 'flex-start',
+    overflow:'hidden',
+    textAlign: 'left',
+    marginLeft: 5,
   },
-  image:{
+  ligthBlue:{
+    backgroundColor: '#2c2c64',
+  },
+  simpleText:{
+    color:'#E6E6E6'
+  },
+  image: {
     width: 65,
     height: 65,
+  },
+  layoutImage:{
+    marginLeft: 5,
+    backgroundColor: 'transparent'
   },
 });
 
