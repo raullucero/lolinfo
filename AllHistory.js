@@ -67,7 +67,7 @@ var AllHistory = React.createClass({
      // });
   },
 
-  renderHistory: function(match){
+  renderHistory: function(match): ReactElement {
     return (
        <CellHistory
          //onSelect={() => this.selectMatch(match)}
@@ -100,10 +100,6 @@ var AllHistory = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#6A85B1',
-    height: 520,
-  },
 });
 
 module.exports = AllHistory;

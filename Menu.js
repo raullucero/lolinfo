@@ -26,47 +26,47 @@ var Menu = React.createClass({
   },
   render: function() {
     return (
-        <View>
-          <TouchableHighlight onPress={this.onSelectChampions}>
-            <View style={styles.container}>
-              <Text style={styles.name}>Champion</Text>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this.onSelectSummoner}>
-            <View style={styles.container}>
-              <Text style={styles.name}>Summoner</Text>
-            </View>
-          </TouchableHighlight>
-        </View>
+        <View style={styles.body}>
+          <View style={styles.main}>  
 
+            <TouchableHighlight style={styles.container} onPress={this.onSelectChampions}>
+              <Text style={styles.name}>Champion</Text>   
+           </TouchableHighlight>
+         
+            <TouchableHighlight style={styles.container} onPress={this.onSelectSummoner}>
+              <Text style={styles.name}>Summoner</Text>
+            </TouchableHighlight>
+         
+          </View>   
+        </View>
+          
+        
     );
   },
 });
 
 var styles = StyleSheet.create({
+  
+  body:{
+    backgroundColor:'#0B0B61',
+    height: 800,
+  },
+  main:{
+    marginTop: 200,
+  },
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    borderWidth: .75,
-    marginTop: 120,
-    borderColor: '#000000',
-  },
-  rightContainer: {
-    flex: 1,
+    backgroundColor: '#ffd700',
+    marginTop: 20,
+    height: 80,
   },
   name: {
     fontSize: 20,
     marginBottom: 8,
     textAlign: 'center',
-  },
-  title: {
-    textAlign: 'center',
-  },
-  image: {
-    width: 60,
-    height: 60,
+    color:'black',
   },
 
 });
