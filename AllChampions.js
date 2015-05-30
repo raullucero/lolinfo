@@ -111,7 +111,7 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
         //console.log(champion);
         var nchampion = champion.toLowerCase();
         if(nchampion.indexOf(this.state.filter) !== -1){
-          console.log('entro');
+          //console.log('entro');
           arrayChamps[champion] = this.state.jChampions[champion];
         }
       }
