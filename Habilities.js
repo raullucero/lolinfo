@@ -69,7 +69,6 @@ var styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    padding: 8,
     width: 44,
     height: 44,
     borderWidth: 4,
