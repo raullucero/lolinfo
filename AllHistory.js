@@ -18,6 +18,7 @@ var {
   View,
   TouchableHighlight,
   ListView,
+  AlertIOS,
   ScrollView,
 } = React;
 
@@ -29,6 +30,7 @@ var AllHistory = React.createClass({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
      loaded: false,
+     rankeds:true,
     };
   },
 
@@ -45,26 +47,38 @@ var AllHistory = React.createClass({
         dataSource: this.state.dataSource.cloneWithRows(responseData.matches.reverse()),
         loaded: true,
       });
-    })
-   .done();
+    }).catch((error) => {
+          AlertIOS.alert(
+               'Unranked Summoner',
+               'Este summoner no tiene historial de Partidas de Clasificatoria'
+            )
+          this.setState({
+            rankeds: false,
+          });
+      })
+    .done();
   },
 
   renderLoadingView: function() {
-    return (
-      <View style={styles.container}>
-        <Text>
-          Loading Ranked History...
-        </Text>
-      </View>
+    var urlimage = 'http://na.leagueoflegends.com/sites/default/files/styles/scale_xlarge/public/upload/awn53kv.jpg?itok=yj6DliR_';
+    if (this.state.rankeds) {
+          return (
+           <View style={styles.container}>
+            <Text>
+             Loading Ranked History...
+            </Text>
+          </View>
+     );
+    } else{
+        return (
+          <View style={styles.container}>
+            <Image style={styles.image} source={{uri:urlimage}}/>
+          </View>
     );
-  },
+    }; 
+     
 
-  selectMatch: function(match){
-  // this.props.navigator.push({
-     //   title: champion.name,
-     //   component: CellHistory,
-     //   passProps: {match},
-     // });
+    
   },
 
   renderHistory: function(match): ReactElement {
@@ -100,6 +114,11 @@ var AllHistory = React.createClass({
 });
 
 var styles = StyleSheet.create({
+
+  image: {
+    width: 414,
+    height: 600,
+  },
 });
 
 module.exports = AllHistory;
