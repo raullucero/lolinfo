@@ -38,11 +38,17 @@ var SearchSummoner = React.createClass({
   			fetch(urlRequest)
     		.then((response) => response.json())
     		.then((responseData) => {
-      		this.setState({
-       		summoner: responseData,
-        	loaded: true,
-      		});
-    	})
+      			this.setState({
+       				summoner: responseData,
+        			loaded: true,
+      			});
+    		}).catch((error) => {
+  				 AlertIOS.alert(
+           	 	 'Summoner Error',
+           		 'Puede que el summoner no exita en la region'
+          )
+
+  		})
     .done();
   },
 
@@ -104,17 +110,18 @@ var SearchSummoner = React.createClass({
 		);
 	},
 	renderSummonerView: function(summoner){
-	    var obj = summoner[this.state.inputValue];
-	     SUMMONER_BASIC_DATA.id = obj.id;
-		 SUMMONER_BASIC_DATA.name = obj.name;// esta dado desde el input 
-		 SUMMONER_BASIC_DATA.region = this.state.region;//esta dada desde el imput 
-		 SUMMONER_BASIC_DATA.icon = API_SUMMONER_ICON + obj.profileIconId+".png";
-		 SUMMONER_BASIC_DATA.summonerLevel = obj.summonerLevel;
-	    return (  
-    	  <SummonerView
-      		summoner = {SUMMONER_BASIC_DATA}/>
-   
-  	  );
+	  var obj = summoner[this.state.inputValue];
+		SUMMONER_BASIC_DATA.id = obj.id;
+		SUMMONER_BASIC_DATA.name = obj.name;// esta dado desde el input 
+		SUMMONER_BASIC_DATA.region = this.state.region;//esta dada desde el imput 
+		SUMMONER_BASIC_DATA.icon = API_SUMMONER_ICON + obj.profileIconId+".png";
+		SUMMONER_BASIC_DATA.summonerLevel = obj.summonerLevel;
+	return (  
+    		<SummonerView
+      			summoner = {SUMMONER_BASIC_DATA}/>
+      		);
+		
+	    
   	},
 	
 	render: function() {
