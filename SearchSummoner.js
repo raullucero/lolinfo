@@ -18,6 +18,7 @@ var {
 	Text,
 	TextInput,
 	TouchableHighlight,
+	AlertIOS,
 } = React;
 
 var SearchSummoner = React.createClass({
@@ -46,11 +47,15 @@ var SearchSummoner = React.createClass({
   },
 
 	search: function(){
-		if(this.state.input === ''){
-			return console.log('campo vacio');
+		if(this.state.inputValue === ''){
+			AlertIOS.alert(
+           	 'No Summoner',
+           	 'Dude Escribe el Nombre del Summoner'
+          )
+		} else {
+			this.fetchData();
 		}
 
-		this.fetchData();
 	},
 
 	updateText: function(text) {
