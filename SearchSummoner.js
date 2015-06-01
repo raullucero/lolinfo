@@ -45,7 +45,8 @@ var SearchSummoner = React.createClass({
     		}).catch((error) => {
   				 AlertIOS.alert(
            	 	 'Summoner Error',
-           		 'Puede que el summoner no exita en la region'
+           		 '* Puede que el summoner no exita en la region* Tu Conexión no permite el acceso de  lolinfo'
+           		
           )
 
   		})
