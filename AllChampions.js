@@ -3,6 +3,7 @@ var Champion = require('./Champion');
 var CellChampion = require('./CellChampion');
 var SearchChampion = require('./SearchChampion.js');
 var TimerMixin = require('react-timer-mixin');
+var Menu = require('./Menu.js')
 
 var REQUEST_URL = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
 var REQUEST_FREE_ROTATION = 'https://na.api.pvp.net/api/lol/na/v1.2/champion?freeToPlay=true&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
@@ -18,6 +19,7 @@ var {
   TextInput,
   TouchableHighlight,
   ListView,
+  AlertIOS,
 } = React;
 
 
@@ -186,7 +188,14 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
         jChampions: responseData.data,
         loaded: true,
       });
-    })
+    }).catch((error) => {
+           AlertIOS.alert(
+               'Summoner Error',
+               '* Tu Conexión no permite el acceso de lolinfo'
+              
+          )
+
+      })
     .done();
 
     fetch(REQUEST_FREE_ROTATION)
@@ -195,7 +204,8 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
       this.setState({
         jFreeRotation: responseData.champions,
       });
-    })
+    }).catch((error) => {
+      })
     .done();
   },
 
