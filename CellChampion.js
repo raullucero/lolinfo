@@ -1,6 +1,6 @@
 var React = require('react-native');
 
-var REQUEST_IMAGE_CHAMP_SMALL = 'http://ddragon.leagueoflegends.com/cdn/5.10.1/img/champion/';
+var REQUEST_IMAGE_CHAMP_SMALL = 'http://ddragon.leagueoflegends.com/cdn/5.9.1/img/champion/';
 
 var {
   View,
@@ -48,24 +48,28 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'black',
     borderWidth: .75,
-    borderColor: '#000000',
+    borderColor: '#5C5C5C',
   },
   rightContainer: {
     flex: 1,
   },
   name: {
     fontSize: 20,
+    color: 'white',
     marginBottom: 8,
     textAlign: 'center',
   },
   title: {
     textAlign: 'center',
+    color: 'white',
   },
   image: {
     width: 60,
     height: 60,
+    borderWidth: 1,
+    borderColor: '#5C5C5C',
   },
 });
 

@@ -44,14 +44,16 @@ var styles = StyleSheet.create({
   },
   wrapperContainer: {
     borderWidth: 1.5,
-    borderColor: '#000000',
+    borderColor: '#424242',
   },
   name: {
     fontSize: 18,
     paddingLeft: 8,
+    color: 'white',
   },
   cost: {
     fontSize: 12,
+    color: 'white',
     paddingLeft: 8,
     paddingTop: 4,
     fontStyle: 'italic',
@@ -64,15 +66,17 @@ var styles = StyleSheet.create({
   },
   textDescription: {
     fontSize: 12,
+    color: 'white',
   },
   rightContainer: {
     flex: 1,
+    backgroundColor: 'black',
   },
   image: {
     width: 44,
     height: 44,
-    borderWidth: 4,
-    borderColor: '#000000',
+    borderWidth: 2,
+    borderColor: '#BDBDBD',
   },
 });
 

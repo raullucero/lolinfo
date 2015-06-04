@@ -3,7 +3,7 @@ var React = require('react-native')
 	RegionView = require('./RegionView.js'),
 	SummonerView = require('./SummonerView.js');;
 
-var VERCION_LOL = '5.9.1' 
+var VERCION_LOL = '5.9.1'
 
 var REQUEST_SUMMONER = 'https://lan.api.pvp.net/api/lol/';
 var REQUEST_MIDDLE = '/v1.4/summoner/by-name/';
@@ -46,7 +46,7 @@ var SearchSummoner = React.createClass({
   				 AlertIOS.alert(
            	 	 'Summoner Error',
            		 '* Puede que el summoner no exita en la region* Tu Conexión no permite el acceso de  lolinfo'
-           		
+
           )
 
   		})
@@ -113,18 +113,18 @@ var SearchSummoner = React.createClass({
 	renderSummonerView: function(summoner){
 	  var obj = summoner[this.state.inputValue];
 		SUMMONER_BASIC_DATA.id = obj.id;
-		SUMMONER_BASIC_DATA.name = obj.name;// esta dado desde el input 
-		SUMMONER_BASIC_DATA.region = this.state.region;//esta dada desde el imput 
+		SUMMONER_BASIC_DATA.name = obj.name;// esta dado desde el input
+		SUMMONER_BASIC_DATA.region = this.state.region;//esta dada desde el imput
 		SUMMONER_BASIC_DATA.icon = API_SUMMONER_ICON + obj.profileIconId+".png";
 		SUMMONER_BASIC_DATA.summonerLevel = obj.summonerLevel;
-	return (  
+	return (
     		<SummonerView
       			summoner = {SUMMONER_BASIC_DATA}/>
       		);
-		
-	    
+
+
   	},
-	
+
 	render: function() {
 		if(!this.state.loaded){
 			return this.renderStaticView();
@@ -136,22 +136,25 @@ var SearchSummoner = React.createClass({
 var styles = StyleSheet.create({
 
 	body:{
-    	backgroundColor:'#0B0B61',
+    	backgroundColor:'black',
     	height: 800,
-  	},
-  	buttonContainer : {
-		borderRadius: 3,
-		borderColor :'#0ea378',
-		backgroundColor: '#ffd700',
-		height: 80,
-		marginTop: 10
+  },
+  buttonContainer : {
+		flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#051980',
+    marginTop: 5,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: '#0C33F4',
+    borderRadius: 8,
+    height: 55,
 	},
 	buttonText: {
 		fontSize: 22,
 		fontWeight: 'bold',
-		color: 'black',
-		alignSelf: 'center',
-		marginTop: 30,
+		color: 'white',
 	},
 	container: {
 		flex: 1,
@@ -163,10 +166,12 @@ var styles = StyleSheet.create({
 	textInput: {
 		height: 40,
 		marginBottom: 10,
+		borderRadius: 8,
+		borderWidth: 2,
+		borderColor: '#BABABA',
 		padding: 4,
-		fontSize: 18,
+		fontSize: 20,
 		backgroundColor: 'white',
-		justifyContent: 'flex-end'
 	}
 });
 

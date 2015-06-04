@@ -192,7 +192,7 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
            AlertIOS.alert(
                'Summoner Error',
                '* Tu Conexión no permite el acceso de lolinfo'
-              
+
           )
 
       })
@@ -204,9 +204,7 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
       this.setState({
         jFreeRotation: responseData.champions,
       });
-    }).catch((error) => {
-      })
-    .done();
+    }).done();
   },
 
   renderLoadingView: function() {
@@ -277,7 +275,8 @@ la busqueda de el campeon ingresado en el campo de busqueda*/
 
   showFreeRotation: function(){
     var freeChamps = {};
-    for(var i = 0; i < 11; i++){
+    //console.log(this.state.jFreeRotation);
+    for(var i = 0; i < this.state.jFreeRotation.length ; i++){
       var id = this.state.jFreeRotation[i].id;
       //this.state.jChampions[id];
       //console.log(this.state.jChampions);
