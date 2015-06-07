@@ -1,13 +1,13 @@
 var React = require('react-native');
+global.Config = require('./StaticData/Config.js');
 var Champion = require('./Champion');
 var CellChampion = require('./CellChampion');
 var SearchChampion = require('./SearchChampion.js');
 var TimerMixin = require('react-timer-mixin');
 var Menu = require('./Menu.js')
 
-var REQUEST_URL = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
-var REQUEST_FREE_ROTATION = 'https://na.api.pvp.net/api/lol/na/v1.2/champion?freeToPlay=true&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
-
+var REQUEST_URL = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=' + global.Config.api.key;
+var REQUEST_FREE_ROTATION = 'https://na.api.pvp.net/api/lol/na/v1.2/champion?freeToPlay=true&api_key='+ global.Config.api.key;
 'use strict';
 
 var {

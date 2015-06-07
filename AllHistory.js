@@ -1,11 +1,11 @@
 var React = require('react-native');
 //var HistoryMatch = require('./HistoryMatch.js');
 var CellHistory = require('./CellHistory.js');
-
+global.Config = require('./StaticData/Config.js');
 var REQUEST_MATCH_HYSTORY = 'https://lan.api.pvp.net/api/lol/';
 var REQUEST_MIDDLE ='/v2.2/matchhistory/';
 
-var REQUEST_COMPLEMENT = '?rankedQueues=RANKED_SOLO_5x5&beginIndex=0&endIndex=10&api_key=7623078e-62e4-4fa8-9397-174ca4dac061';
+var REQUEST_COMPLEMENT = '?rankedQueues=RANKED_SOLO_5x5&beginIndex=0&endIndex=10&api_key='+ global.Config.api.key;
 
 
 'use strict';

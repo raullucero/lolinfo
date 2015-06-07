@@ -3,14 +3,15 @@ var React = require('react-native')
 	RegionView = require('./RegionView.js'),
 	SummonerView = require('./SummonerView.js');;
 
-var VERCION_LOL = '5.9.1'
+
+global.Config = require('./StaticData/Config.js');
 
 var REQUEST_SUMMONER = 'https://lan.api.pvp.net/api/lol/';
 var REQUEST_MIDDLE = '/v1.4/summoner/by-name/';
-var REQUEST_COMPLEMENT = '?api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
+var REQUEST_COMPLEMENT = '?api_key=' + global.Config.api.key;
 
 
-var API_SUMMONER_ICON = 'http://ddragon.leagueoflegends.com/cdn/'+VERCION_LOL+'/img/profileicon/';
+var API_SUMMONER_ICON = 'http://ddragon.leagueoflegends.com/cdn/'+ global.Config.api.vercion +'/img/profileicon/';
 var SUMMONER_BASIC_DATA={};
 var {
 	StyleSheet,
