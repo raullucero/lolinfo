@@ -1,10 +1,11 @@
 var React = require('react-native');
 var Habilities = require('./Habilities');
 var DetailChampion = require('./DetailChampion')
+global.Config = require('./StaticData/Config.js');
 
 var REQUEST_IMAGE_SKIN = 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/';
 var REQUEST_CHAMP = 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/';
-var REQUEST_COMPLEMENT = '?champData=all&api_key=92a530c4-7909-4ab8-bcf3-5390118fbaea';
+var REQUEST_COMPLEMENT = '?champData=all&api_key='+ global.Config.api.key;
 
 var SKINS_IMAGES = [];
 

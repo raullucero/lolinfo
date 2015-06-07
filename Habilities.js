@@ -1,6 +1,6 @@
 var React = require('react-native');
 
-var REQUEST_IMAGE_SPELL = 'http://ddragon.leagueoflegends.com/cdn/5.8.1/img/spell/'
+var REQUEST_IMAGE_SPELL = 'http://ddragon.leagueoflegends.com/cdn/'+ global.Config.api.vercion +'/img/spell/'
 
 var {
   View,

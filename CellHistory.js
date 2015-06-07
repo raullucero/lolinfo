@@ -1,14 +1,15 @@
 var React = require('react-native');
 var RuneMatch = require('./RuneMatch.js')
+global.Config = require('./StaticData/Config.js');
 
-var REQUEST_IMAGE_CHAMP_SMALL = 'http://ddragon.leagueoflegends.com/cdn/5.8.1/img/champion/';
+var REQUEST_IMAGE_CHAMP_SMALL = 'http://ddragon.leagueoflegends.com/cdn/'+ global.Config.api.vercion +'/img/champion/';
 
 var REQUEST_CHAMPION ='https://global.api.pvp.net/api/lol/static-data/lan/v1.2/champion/';
-var RECUEST_CHAMPION_COMPLEMENT='?champData=image&api_key=7623078e-62e4-4fa8-9397-174ca4dac061';
-var REQUEST_IMAGE_ITEM = 'http://ddragon.leagueoflegends.com/cdn/5.9.1/img/item/';
-var urlImageIcons_minions= 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/minion.png'; 
-var urlImageIcons_gold = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/gold.png';
-var urlImageIcons_KDA= 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/score.png';
+var RECUEST_CHAMPION_COMPLEMENT='?champData=image&api_key='+ global.Config.api.key;
+var REQUEST_IMAGE_ITEM = 'http://ddragon.leagueoflegends.com/cdn/'+ global.Config.api.vercion +'/img/item/';
+var urlImageIcons_minions= 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/minion.png'; // estos iconos estan 
+var urlImageIcons_gold = 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/gold.png';  // solo hasta la vercion
+var urlImageIcons_KDA= 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/ui/score.png';   // 5.2.1
 
 var {
   View,

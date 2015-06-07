@@ -1,9 +1,10 @@
 var React = require('react-native');
 
+global.Config = require('./StaticData/Config.js');
 var REQUEST_RUNE = 'https://global.api.pvp.net/api/lol/static-data/lan/v1.2/rune/';
-var REQUEST_RUNE_COMPLEMENT = '?locale=es_ES&version=5.9.1&runeData=image&api_key=7623078e-62e4-4fa8-9397-174ca4dac061';
+var REQUEST_RUNE_COMPLEMENT = '?locale=es_ES&version='+ global.Config.api.vercion +'&runeData=image&api_key='+ global.Config.api.key;
 
-var REQUEST_IMAGE_RUNE = 'http://ddragon.leagueoflegends.com/cdn/5.9.1/img/rune/';
+var REQUEST_IMAGE_RUNE = 'http://ddragon.leagueoflegends.com/cdn/'+global.Config.api.vercion+'/img/rune/';
 var {
   View,
   Text,
