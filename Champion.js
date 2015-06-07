@@ -88,7 +88,8 @@ var Champion = React.createClass({
        }
     );
     return (
-      <ScrollView>
+      <ScrollView
+        style={styles.containerMain}>
         <ScrollView
           scrollEventThrottle={200}
           contentInset={{top: -50}}
@@ -135,25 +136,30 @@ var Skin = React.createClass({
 var createSkinRow = (uri, i) => <Skin key={i} uri={uri} />;
 
 var styles = StyleSheet.create({
-  scrollView: {
+
+  containerMain: {
     backgroundColor: 'black',
+  },
+  scrollView: {
+    backgroundColor: '#1C1C1C',
     height: 270,
   },
   wrapperSkin: {
     width: 124,
     height: 224,
-  },
-  listView: {
-
+    borderWidth: 3,
+    borderColor: '#BDBDBD',
   },
   name: {
     fontSize: 26,
     marginTop: 7,
+    color: 'white',
     textAlign: 'center',
     fontWeight: 'bold'
   },
   title: {
     fontSize: 11,
+    color: 'white',
     textAlign: 'center',
     paddingBottom: 6,
   },
@@ -168,6 +174,7 @@ var styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     padding: 6,
+    color: 'white',
     textAlign: 'center',
   },
 });
